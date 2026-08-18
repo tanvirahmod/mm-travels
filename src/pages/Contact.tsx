@@ -9,6 +9,7 @@ import {
   Building2,
 } from 'lucide-react';
 import { useApp } from '@/components/AppContext';
+import { PageHeroDecor, TravelEyebrow, PlaneMark } from '@/components/TravelDecor';
 
 const offices = [
   {
@@ -43,11 +44,12 @@ function Contact() {
   return (
     <>
       {/* Page header */}
-      <section className="relative isolate overflow-hidden bg-ink-950 py-16 sm:py-20">
+      <section className="relative isolate overflow-hidden bg-navy-900 py-16 sm:py-20">
         <div className="absolute inset-0 -z-10 bg-cover bg-center opacity-50" style={{ backgroundImage: `linear-gradient(110deg, rgba(2,6,23,.92), rgba(30,58,138,.5)), url(https://images.pexels.com/photos/31711206/pexels-photo-31711206.jpeg?auto=compress&cs=tinysrgb&w=1800)` }} />
         <div className="absolute inset-0 -z-10 bg-mesh-pop opacity-60" />
+        <PageHeroDecor />
         <div className="container-x max-w-7xl">
-          <span className="eyebrow">Contact &amp; Branches</span>
+          <TravelEyebrow>Contact &amp; Branches</TravelEyebrow>
           <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">We&apos;re here to help</h1>
           <p className="lede mt-4 max-w-xl text-white/70">Visit us at one of our offices in Dhaka or Doha, or send us a message — our travel experts are ready to assist you.</p>
         </div>
@@ -57,7 +59,7 @@ function Contact() {
       <section className="container-x max-w-7xl py-12 sm:py-16">
         <div className="grid gap-6 lg:grid-cols-2">
           {offices.map((office) => (
-            <div key={office.name} className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm transition-all duration-300 hover:shadow-card">
+            <div key={office.name} className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-soft transition-all duration-300 hover:shadow-soft">
               <div className="relative h-52 overflow-hidden bg-brand-50">
                 <iframe
                   title={`Map of ${office.name}`}
@@ -72,7 +74,7 @@ function Contact() {
 
               <div className="p-6">
                 <div className="flex items-center gap-3">
-                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${office.accent === 'green' ? 'bg-brand-100 text-brand-600' : 'bg-accent-100 text-accent-600'}`}>
+                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${office.accent === 'green' ? 'bg-brand-100 text-brand-600' : 'bg-brand-50 text-brand-600'}`}>
                     <Building2 size={22} />
                   </div>
                   <div>
@@ -98,7 +100,7 @@ function Contact() {
                     <Clock size={16} className="mt-0.5 shrink-0 text-brand-500" />
                     <div>
                       <p className="font-semibold text-ink-700">{office.hours}</p>
-                      <p className="text-ink-400">{office.hoursFriday}</p>
+                      <p className="text-ink-500">{office.hoursFriday}</p>
                     </div>
                   </div>
                 </div>
@@ -130,10 +132,10 @@ function Contact() {
             { icon: Mail, label: 'Email Us', value: 'info@mmtravels.qa', sub: 'We reply within 24h' },
             { icon: MessageCircle, label: 'WhatsApp', value: '+880 1744 421253', sub: 'Dhaka, Bangladesh' },
           ].map(({ icon: Icon, label, value, sub }) => (
-            <div key={label} className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-sm border border-ink-100 transition hover:shadow-card">
+            <div key={label} className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-soft border border-ink-100 transition hover:shadow-soft">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-600"><Icon size={22} /></div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-400">{label}</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-ink-500">{label}</p>
                 <p className="text-sm font-bold text-ink-900">{value}</p>
                 <p className="text-xs text-ink-500">{sub}</p>
               </div>
@@ -147,11 +149,11 @@ function Contact() {
         <div className="pointer-events-none absolute inset-0 bg-mesh-pop opacity-50" />
         <div className="container-x relative flex max-w-7xl flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-300">Ready when you are</p>
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-brand-300"><PlaneMark className="h-4 w-4" /> Ready when you are</p>
             <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Let&apos;s plan your next journey.</h2>
             <p className="mt-3 max-w-lg text-sm leading-6 text-white/65">Have a question about visas, packages, or flights? Our team is standing by.</p>
           </div>
-          <button onClick={openEnquiry} className="flex shrink-0 items-center gap-2 rounded-xl bg-pop-red px-6 py-3.5 text-sm font-bold text-white shadow-brand-soft transition hover:bg-red-600 hover:shadow-glow">Send us a message <Send size={16} /></button>
+          <button onClick={openEnquiry} className="flex shrink-0 items-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 text-sm font-bold text-white shadow-brand-soft transition hover:bg-red-600 hover:shadow-glow">Send us a message <Send size={16} /></button>
         </div>
       </section>
     </>

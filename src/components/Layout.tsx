@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  ArrowRight,
-  BadgeCheck,
-  ChevronDown,
   Instagram,
   Mail,
   MapPin,
@@ -17,6 +14,8 @@ import {
   Youtube,
 } from 'lucide-react';
 import { useApp, type PageId } from '@/components/AppContext';
+import AnnouncementBar from '@/components/AnnouncementBar';
+import { TravelTexture } from '@/components/TravelDecor';
 
 const navItems: { label: string; page: PageId }[] = [
   { label: 'Home', page: 'home' },
@@ -33,7 +32,6 @@ const navItems: { label: string; page: PageId }[] = [
 function Layout({ children }: { children: React.ReactNode }) {
   const { currentPage, navigate, openEnquiry } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('EN');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -51,57 +49,27 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-white text-ink-900">
-      {/* Top utility bar */}
-      <div className="bg-ink-900 text-white border-b border-ink-800">
-        <div className="container-x flex max-w-7xl flex-wrap items-center justify-between gap-3 py-2.5 text-[11px] font-medium tracking-wide">
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-            <span className="flex items-center gap-1.5"><MapPin size={13} className="text-brand-400" /> Doha, Qatar</span>
-            <span className="hidden h-3 w-px bg-white/20 sm:block" />
-            <span className="hidden items-center gap-1.5 sm:flex"><MapPin size={13} className="text-brand-400" /> Dhaka, Bangladesh</span>
-            <span className="hidden h-3 w-px bg-white/20 lg:block" />
-            <span className="hidden items-center gap-1.5 lg:flex"><Mail size={13} className="text-brand-400" /> info@mmtravels.qa</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <a href="#" aria-label="Instagram" className="text-white/70 transition hover:text-brand-400"><Instagram size={14} /></a>
-            <a href="#" aria-label="YouTube" className="text-white/70 transition hover:text-brand-400"><Youtube size={14} /></a>
-            <a href="#" aria-label="WhatsApp" className="text-white/70 transition hover:text-brand-400"><MessageCircle size={14} /></a>
-            <span className="h-3 w-px bg-white/20" />
-            <button className="flex items-center gap-1 text-white/60 transition hover:text-brand-400" onClick={() => setLanguage(language === 'EN' ? 'BN' : 'EN')} aria-label="Switch language">
-              {language} <ChevronDown size={12} />
-            </button>
-            <span className="h-3 w-px bg-white/20" />
-             <button onClick={() => handleNav('admin')} className="flex items-center gap-1 text-white/60 transition hover:text-brand-400" aria-label="Admin login">
-               Admin
-             </button>
-          </div>
-        </div>
-      </div>
+      {/* Global travel texture backdrop */}
+      <TravelTexture />
+
+      {/* Announcement Bar */}
+      <AnnouncementBar />
 
       {/* Branding header */}
       <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'bg-white/95 shadow-soft backdrop-blur-xl border-b border-ink-100' : 'bg-white'}`}>
-        <div className="container-x flex max-w-7xl items-center justify-between gap-5 py-3.5">
-          <button onClick={() => handleNav('home')} className="flex min-w-0 items-center gap-3">
-            <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-glow-sm">
-              <PlaneTakeoff size={24} strokeWidth={1.8} />
-              <span className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-pop-red ring-2 ring-white" />
-            </div>
-            <div className="min-w-0 text-left">
-              <p className="font-display truncate text-[16px] font-extrabold leading-tight tracking-tight text-ink-900 sm:text-lg">MM Travels <span className="text-brand-600">&amp; Tourism</span></p>
-              <p className="mt-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-500"><BadgeCheck size={12} className="text-brand-500" /> Govt. Approved · Lic. 17539</p>
-            </div>
+        <div className="container-x relative flex max-w-7xl items-center justify-center gap-5 py-3.5">
+          <button onClick={() => handleNav('home')} className="flex items-center gap-3">
+            <img
+              src="https://ik.imagekit.io/oy2vruqkz/Gemini_Generated_Image_koh4ckoh4ckoh4ck-modified.png"
+              alt="MM Travels & Tourism Services"
+              className="h-14 w-14 rounded-2xl object-cover shadow-glow-sm sm:h-16 sm:w-16"
+            />
+            <span className="bg-[linear-gradient(90deg,#0F172A_0%,#1E63FF_55%,#0F172A_100%)] bg-[length:200%_auto] bg-clip-text font-display text-xl font-extrabold tracking-tight text-transparent animate-gradient-pan sm:text-2xl">
+              MM Travels &amp; Tourism Services
+            </span>
           </button>
 
-          <div className="hidden items-center gap-3 lg:flex">
-            <div className="rounded-2xl border border-ink-200 bg-ink-50 px-4 py-2">
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-ink-500"><Phone size={13} className="text-brand-500" /> Call us today</div>
-              <p className="mt-0.5 text-sm font-bold text-ink-900">+01744 421253 <span className="font-normal text-ink-400">BD</span> <span className="mx-1 text-ink-200">·</span> +974 6648 6076 <span className="font-normal text-ink-400">Qatar</span></p>
-            </div>
-            <button onClick={openEnquiry} className="btn-primary group">
-              Enquiry Now <ArrowRight size={16} className="transition group-hover:translate-x-1" />
-            </button>
-          </div>
-
-          <button onClick={() => setMenuOpen(!menuOpen)} className="rounded-xl p-2 text-ink-900 transition hover:bg-ink-100 lg:hidden" aria-label="Toggle navigation">{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="absolute right-4 rounded-xl p-2 text-ink-900 transition hover:bg-ink-100 lg:hidden" aria-label="Toggle navigation">{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
 
         {/* Navigation */}
@@ -121,7 +89,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 </button>
               ))}
             </div>
-            <button onClick={openEnquiry} className="my-2 flex items-center justify-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 text-sm font-bold text-brand-700 transition hover:bg-brand-100 lg:my-0"><MessageCircle size={16} /> Plan your trip</button>
+            <button onClick={openEnquiry} className="my-2 flex items-center justify-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 text-sm font-bold text-brand-600 transition hover:bg-brand-50 lg:my-0"><MessageCircle size={16} /> Plan your trip</button>
           </div>
         </nav>
       </header>
@@ -130,7 +98,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <main>{children}</main>
 
       {/* Footer */}
-      <footer className="relative overflow-hidden bg-ink-900 text-white">
+      <footer className="relative overflow-hidden bg-navy-900 text-white">
         <div className="pointer-events-none absolute inset-0 bg-mesh-pop opacity-40" />
         <div className="container-x relative grid max-w-7xl gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.3fr_.8fr_1fr_1.2fr]">
           <div>
@@ -143,13 +111,13 @@ function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <p className="mt-5 max-w-xs text-sm leading-6 text-white/65">Making global travel feel closer, easier, and more human from our offices in Doha and Dhaka.</p>
             <div className="mt-5 flex gap-2">
-              <a href="#" className="rounded-xl bg-white/10 p-2.5 text-white/70 transition hover:bg-brand-500 hover:text-white"><Instagram size={16} /></a>
-              <a href="#" className="rounded-xl bg-white/10 p-2.5 text-white/70 transition hover:bg-brand-500 hover:text-white"><Youtube size={16} /></a>
-              <a href="#" className="rounded-xl bg-white/10 p-2.5 text-white/70 transition hover:bg-brand-500 hover:text-white"><MessageCircle size={16} /></a>
+              <a href="#" className="rounded-xl bg-white/10 p-2.5 text-white/70 transition hover:bg-brand-200 hover:text-white"><Instagram size={16} /></a>
+              <a href="#" className="rounded-xl bg-white/10 p-2.5 text-white/70 transition hover:bg-brand-200 hover:text-white"><Youtube size={16} /></a>
+              <a href="#" className="rounded-xl bg-white/10 p-2.5 text-white/70 transition hover:bg-brand-200 hover:text-white"><MessageCircle size={16} /></a>
             </div>
           </div>
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.17em] text-brand-300">Explore</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.17em] text-brand-400">Explore</h3>
             <div className="mt-5 space-y-3 text-sm text-white/60">
               <button className="block transition hover:text-white" onClick={() => handleNav('about-us')}>About us</button>
               <button className="block transition hover:text-white" onClick={() => handleNav('services')}>Our services</button>
@@ -158,40 +126,53 @@ function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.17em] text-brand-300">Services</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.17em] text-brand-400">Services</h3>
             <div className="mt-5 space-y-3 text-sm text-white/60">
               <p>Flight booking</p><p>Visa processing</p><p>Hotel reservations</p><p>Umrah &amp; Hajj packages</p><p>Travel insurance</p>
             </div>
           </div>
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.17em] text-brand-300">Find us</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.17em] text-brand-400">Find us</h3>
             <div className="mt-5 space-y-4 text-sm text-white/60">
-              <p className="flex gap-3"><MapPin size={17} className="shrink-0 text-brand-300" /> Al Sadd, Doha, Qatar<br />Uttara, Dhaka, Bangladesh</p>
-              <p className="flex items-center gap-3"><Phone size={16} className="text-brand-300" /> +974 6648 6076</p>
-              <p className="flex items-center gap-3"><Mail size={16} className="text-brand-300" /> info@mmtravels.qa</p>
+              <p className="flex gap-3"><MapPin size={17} className="shrink-0 text-brand-400" /> Al Sadd, Doha, Qatar<br />Uttara, Dhaka, Bangladesh</p>
+              <p className="flex items-center gap-3"><Phone size={16} className="text-brand-400" /> +974 6648 6076</p>
+              <p className="flex items-center gap-3"><Mail size={16} className="text-brand-400" /> info@mmtravels.qa</p>
             </div>
             <button onClick={() => handleNav('branches')} className="mt-4 flex w-full items-center gap-2 rounded-2xl border border-white/15 bg-white/5 p-3 text-xs text-white/60 transition hover:bg-white/10 hover:text-white">
-              <Navigation size={17} className="text-brand-300" /> View office locations <ChevronRight size={14} className="ml-auto" />
+              <Navigation size={17} className="text-brand-400" /> View office locations <ChevronRight size={14} className="ml-auto" />
+            </button>
+            <button onClick={() => handleNav('admin')} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-500 px-4 py-3 text-xs font-bold text-white transition hover:bg-brand-600">
+              Admin Panel
             </button>
           </div>
         </div>
         <div className="border-t border-white/10">
           <div className="container-x flex max-w-7xl flex-col gap-3 py-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
-            <p>© 2024 MM Travels &amp; Tourism Services. <button onClick={() => handleNav('admin')} className="text-white/30 transition hover:text-brand-300">Admin</button></p>
-            <p className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-brand-300" /> Safe journeys, always.</p>
+            <p>© 2024 MM Travels &amp; Tourism Services. <button onClick={() => handleNav('admin')} className="text-white/30 transition hover:text-brand-400">Admin</button></p>
+            <p className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-brand-400" /> Safe journeys, always.</p>
           </div>
         </div>
       </footer>
 
       {/* Floating WhatsApp */}
-      <button
-        onClick={openEnquiry}
-        className="group fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-brand-gradient text-white shadow-glow transition hover:scale-105"
-        aria-label="Open enquiry form"
+      <a
+        href="https://wa.me/97466486076"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-glow transition hover:scale-105"
+        aria-label="Chat with us on WhatsApp"
       >
-        <span className="absolute inset-0 animate-pulse-ring rounded-full bg-brand-400/50" />
-        <MessageCircle size={25} />
-      </button>
+        <span className="absolute inset-0 animate-pulse-ring rounded-full bg-[#25D366]/50" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          className="h-[26px] w-[26px]"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M16.01 3.2C8.96 3.2 3.2 8.96 3.2 16.01c0 2.42.66 4.74 1.92 6.78L3.2 28.8l6.16-1.6a12.74 12.74 0 0 0 6.65 1.86h.01c7.05 0 12.81-5.76 12.81-12.81 0-3.43-1.34-6.65-3.76-9.07A12.7 12.7 0 0 0 16.01 3.2zm0 23.21h-.01a10.6 10.6 0 0 1-5.4-1.48l-.39-.23-3.66.95.98-3.57-.25-.39a10.56 10.56 0 0 1-1.62-5.62c0-5.86 4.77-10.63 10.64-10.63 2.84 0 5.51 1.1 7.52 3.11a10.55 10.55 0 0 1 3.11 7.52c0 5.86-4.77 10.63-10.63 10.63zm5.83-7.96c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.5-.16-.71.16-.21.32-.82 1.04-1 1.25-.18.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.89-1.78-2.21-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.18.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.71-1.71-.97-2.34-.26-.62-.52-.54-.71-.55l-.61-.01c-.21 0-.56.08-.85.4-.29.32-1.11 1.09-1.11 2.64 0 1.56 1.14 3.06 1.3 3.27.16.21 2.25 3.43 5.45 4.81.76.33 1.36.53 1.82.68.76.24 1.46.21 2.01.13.61-.09 1.89-.77 2.15-1.52.26-.74.26-1.38.18-1.52-.08-.13-.29-.21-.61-.37z" />
+        </svg>
+      </a>
     </div>
   );
 }

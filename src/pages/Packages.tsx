@@ -10,6 +10,7 @@ import {
   FileCheck2,
 } from 'lucide-react';
 import { useApp } from '@/components/AppContext';
+import { PageHeroDecor, TravelEyebrow } from '@/components/TravelDecor';
 import { supabase, type Tour, type VisaRequirement } from '@/lib/supabase';
 import { useSearchParams } from 'react-router-dom';
 
@@ -25,6 +26,10 @@ type StaticPkg = {
   tag: string;
   inclusions: string[];
   description: string;
+  link: string;
+  isExternal: boolean;
+  destination: string;
+  note: string;
 };
 
 const staticPackages: StaticPkg[] = [
@@ -38,6 +43,10 @@ const staticPackages: StaticPkg[] = [
     tag: 'Most Popular',
     inclusions: ['Return flights', '4-star hotel near Haram', 'Daily breakfast & dinner', 'Visa & insurance', 'Ground transfers', 'Guided Ziyarat tours'],
     description: 'A complete Umrah experience with comfortable accommodation steps from the Haram.',
+    link: '/packages',
+    isExternal: false,
+    destination: 'Saudi Arabia',
+    note: '',
   },
   {
     id: 'umrah-premium',
@@ -49,6 +58,10 @@ const staticPackages: StaticPkg[] = [
     tag: 'Premium',
     inclusions: ['Premium airline tickets', '5-star hotel overlooking Kaaba', 'Full board meals', 'Express visa processing', 'Private transfers', 'Personal guide'],
     description: 'Our finest Umrah journey with luxury accommodation and personalised service.',
+    link: '/packages',
+    isExternal: false,
+    destination: 'Saudi Arabia',
+    note: '',
   },
   {
     id: 'europe-classic',
@@ -60,6 +73,10 @@ const staticPackages: StaticPkg[] = [
     tag: 'Best Value',
     inclusions: ['Flights from Doha/Dhaka', '3-star hotels with breakfast', 'Schengen visa support', 'Paris, Rome & Barcelona', 'Hop-on hop-off passes', 'Daily guided excursions'],
     description: 'Explore the icons of Europe across three enchanting cities.',
+    link: '/packages',
+    isExternal: false,
+    destination: 'Europe',
+    note: '',
   },
   {
     id: 'europe-deluxe',
@@ -71,6 +88,10 @@ const staticPackages: StaticPkg[] = [
     tag: 'Extended',
     inclusions: ['Business class flights', '4-star boutique hotels', 'Fast-track Schengen visa', '6 cities across 4 countries', 'Private city tours', 'Wine tasting experiences'],
     description: 'An extended European adventure across six unforgettable cities.',
+    link: '/packages',
+    isExternal: false,
+    destination: 'Europe',
+    note: '',
   },
   {
     id: 'asia-escape',
@@ -82,6 +103,10 @@ const staticPackages: StaticPkg[] = [
     tag: 'Quick Getaway',
     inclusions: ['Return flights', '4-star resort stays', 'Bangkok & Phuket', 'Visa on arrival support', 'Island hopping tour', 'Airport transfers'],
     description: 'Sun, temples, and street food across Thailand\'s most loved destinations.',
+    link: '/packages',
+    isExternal: false,
+    destination: 'Thailand',
+    note: '',
   },
   {
     id: 'asia-bali',
@@ -93,8 +118,12 @@ const staticPackages: StaticPkg[] = [
     tag: 'Tropical',
     inclusions: ['Return flights', 'Private pool villa', 'Ubud & Seminyak stays', 'Daily breakfast', 'Temple & rice terrace tours', 'Spa treatment included'],
     description: 'Rejuvenate in Bali with luxury villas, temples, and serene rice terraces.',
+    link: '/packages',
+    isExternal: false,
+    destination: 'Bali',
+    note: '',
   },
-];
+  ];
 
 type PackageItem = {
   id: string;
@@ -145,6 +174,7 @@ function Packages() {
             link: `/tours/${tour.id}`,
             isExternal: false,
             destination: tour.destination,
+            note: '',
           });
         });
       }
@@ -187,11 +217,12 @@ function Packages() {
   return (
     <>
       {/* Page header */}
-      <section className="relative isolate overflow-hidden bg-ink-950 py-16 sm:py-20">
+      <section className="relative isolate overflow-hidden bg-navy-900 py-16 sm:py-20">
         <div className="absolute inset-0 -z-10 bg-cover bg-center opacity-50" style={{ backgroundImage: `linear-gradient(110deg, rgba(2,6,23,.92), rgba(30,58,138,.5)), url(https://images.pexels.com/photos/17983843/pexels-photo-17983843.jpeg?auto=compress&cs=tinysrgb&w=1800)` }} />
         <div className="absolute inset-0 -z-10 bg-mesh-pop opacity-60" />
+        <PageHeroDecor />
       <div className="container-x max-w-7xl">
-        <span className="eyebrow">Travel Packages</span>
+        <TravelEyebrow>Travel Packages</TravelEyebrow>
         <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
           {destinationFilter ? `Packages in ${destinationFilter}` : 'Find your perfect journey'}
         </h1>
@@ -235,7 +266,7 @@ function Packages() {
 
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {filtered.map((pkg) => (
-                <div key={pkg.id} className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+                <div key={pkg.id} className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
                   <div className="relative h-48 overflow-hidden">
                     <img 
                       src={pkg.image} 
@@ -246,11 +277,11 @@ function Packages() {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <span className="absolute left-4 top-4 rounded-full bg-pop-red px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">{pkg.tag}</span>
+                    <span className="absolute left-4 top-4 rounded-full bg-brand-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">{pkg.tag}</span>
                     {pkg.category && (
                       <span className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-ink-900 backdrop-blur-sm">
                         {pkg.category === 'Tours' || pkg.category === 'Visa' ? (
-                          pkg.category === 'Tours' ? <MapPin size={12} className="text-brand-500" /> : <FileCheck2 size={12} className="text-brand-500" />
+                          pkg.category === 'Tours' ? <MapPin size={12} className="text-brand-600" /> : <FileCheck2 size={12} className="text-brand-600" />
                         ) : null}
                         {pkg.category}
                       </span>
@@ -265,21 +296,21 @@ function Packages() {
                       <p className="mt-1.5 text-xs font-semibold text-brand-600 line-clamp-1">Note: {pkg.note}</p>
                     )}
                     <div className="mt-3 flex items-center gap-4 text-xs font-semibold text-ink-500">
-                      <span className="flex items-center gap-1.5"><Clock size={14} className="text-brand-500" /> {pkg.duration}</span>
+                      <span className="flex items-center gap-1.5"><Clock size={14} className="text-brand-600" /> {pkg.duration}</span>
                     </div>
                     <div className="mt-4 space-y-2">
-                      <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Inclusions</p>
+                      <p className="text-xs font-bold uppercase tracking-wider text-ink-500">Inclusions</p>
                       <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
                         {pkg.inclusions.slice(0, 4).map((inc) => (
                           <div key={inc} className="flex items-center gap-2 text-xs text-ink-600">
-                            <Check size={13} className="shrink-0 text-brand-500" strokeWidth={3} /> {inc}
+                            <Check size={13} className="shrink-0 text-brand-600" strokeWidth={3} /> {inc}
                           </div>
                         ))}
                       </div>
                     </div>
                     <div className="mt-5 flex items-end justify-between border-t border-ink-100 pt-4">
                       <div>
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-ink-400">Starting from</p>
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-ink-500">Starting from</p>
                         <p className="font-display text-xl font-extrabold text-brand-600">{pkg.price}</p>
                       </div>
                       {pkg.isExternal ? (
@@ -308,8 +339,8 @@ function Packages() {
             { icon: Star, title: 'Curated Itineraries', text: 'Hand-picked experiences' },
             { icon: Users, title: 'Group Discounts', text: 'Save more together' },
           ].map(({ icon: Icon, title, text }) => (
-            <div key={title} className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-sm border border-ink-100 transition hover:shadow-card">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-600"><Icon size={22} /></div>
+            <div key={title} className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-soft border border-ink-100 transition hover:shadow-card">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600"><Icon size={22} /></div>
               <div><p className="font-bold text-ink-900">{title}</p><p className="text-sm text-ink-500">{text}</p></div>
             </div>
           ))}

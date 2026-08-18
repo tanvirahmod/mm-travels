@@ -124,7 +124,7 @@ function AdminDestinations() {
                 <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
               </div>
             ) : items.length === 0 ? (
-              <p className="py-8 text-center text-sm text-ink-400">No items found. Add one above.</p>
+              <p className="py-8 text-center text-sm text-ink-500">No items found. Add one above.</p>
             ) : (
               items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between rounded-xl border border-ink-100 px-4 py-3">
@@ -151,10 +151,10 @@ function AdminDestinations() {
                         {item.name}
                       </span>
                       <div className="flex items-center gap-1">
-                        <button onClick={() => { setEditingId(item.id); setEditName(item.name); }} className="rounded-lg p-2 text-ink-400 transition hover:bg-ink-100 hover:text-brand-600">
+                        <button onClick={() => { setEditingId(item.id); setEditName(item.name); }} className="rounded-lg p-2 text-ink-500 transition hover:bg-ink-100 hover:text-brand-600">
                           <Pencil size={14} />
                         </button>
-                        <button onClick={() => handleDelete(item.id)} className="rounded-lg p-2 text-ink-400 transition hover:bg-pop-red/10 hover:text-pop-red">
+                        <button onClick={() => handleDelete(item.id)} className="rounded-lg p-2 text-ink-500 transition hover:bg-brand-500/10 hover:text-brand-600">
                           <Trash2 size={14} />
                         </button>
                       </div>

@@ -118,7 +118,7 @@ function AdminCards() {
           <div className="flex flex-col gap-3 border-b border-ink-100 pb-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2">
               <LayoutGrid size={16} className="text-brand-500" />
-              <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Service Cards Editor</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-ink-500">Service Cards Editor</p>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -138,7 +138,7 @@ function AdminCards() {
             {cards.map((card, index) => (
               <div key={card.id} className="rounded-2xl border border-ink-200 bg-white p-4">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="text-xs font-bold text-ink-400">Card {index + 1}</span>
+                  <span className="text-xs font-bold text-ink-500">Card {index + 1}</span>
                   <button
                     onClick={() => removeCard(card.id)}
                     className="flex items-center gap-1 text-xs font-bold text-pop-red/70 transition hover:text-pop-red"
@@ -152,7 +152,7 @@ function AdminCards() {
                   </div>
                   <div className="flex-1 space-y-2.5">
                     <label className="block">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-ink-400">Title</span>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-ink-500">Title</span>
                       <input
                         type="text"
                         value={card.title}
@@ -161,7 +161,7 @@ function AdminCards() {
                       />
                     </label>
                     <label className="block">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-ink-400">Description</span>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-ink-500">Description</span>
                       <input
                         type="text"
                         value={card.description}
@@ -170,7 +170,7 @@ function AdminCards() {
                       />
                     </label>
                     <label className="block">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-ink-400">Image URL</span>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-ink-500">Image URL</span>
                       <input
                         type="url"
                         value={card.image_url}

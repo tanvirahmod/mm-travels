@@ -17,6 +17,7 @@ export type PageId =
   | 'admin-agents'
   | 'admin-visa-applications'
   | 'admin-tour-applications'
+  | 'admin-announcements'
   | 'tours'
   | 'tour-details';
 

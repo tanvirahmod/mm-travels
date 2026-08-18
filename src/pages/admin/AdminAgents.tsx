@@ -91,19 +91,19 @@ function AdminAgents() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {loading ? (
-                <tr><td colSpan={3} className="px-6 py-8 text-center text-ink-400">Loading...</td></tr>
+                <tr><td colSpan={3} className="px-6 py-8 text-center text-ink-500">Loading...</td></tr>
               ) : agents.length === 0 ? (
-                <tr><td colSpan={3} className="px-6 py-8 text-center text-ink-400">No agents found. Add one above.</td></tr>
+                <tr><td colSpan={3} className="px-6 py-8 text-center text-ink-500">No agents found. Add one above.</td></tr>
               ) : agents.map((agent) => (
                 <tr key={agent.id} className="transition hover:bg-ink-50/50">
                   <td className="px-6 py-4 font-semibold text-ink-900">{agent.name}</td>
                   <td className="px-6 py-4 text-ink-600">{agent.phone}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button onClick={() => openEdit(agent)} className="rounded-lg p-2 text-ink-400 transition hover:bg-brand-50 hover:text-brand-600">
+                      <button onClick={() => openEdit(agent)} className="rounded-lg p-2 text-ink-500 transition hover:bg-brand-50 hover:text-brand-600">
                         <Save size={14} />
                       </button>
-                      <button onClick={() => handleDelete(agent.id)} className="rounded-lg p-2 text-ink-400 transition hover:bg-pop-red/10 hover:text-pop-red">
+                      <button onClick={() => handleDelete(agent.id)} className="rounded-lg p-2 text-ink-500 transition hover:bg-pop-red/10 hover:text-pop-red">
                         <Trash2 size={14} />
                       </button>
                     </div>
@@ -128,11 +128,11 @@ function AdminAgents() {
             </div>
             <div className="p-6 space-y-5">
               <div>
-                <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Agent Name</label>
+                <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Agent Name</label>
                 <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Rahman Bhai" className="field-style w-full" />
               </div>
               <div>
-                <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Phone Number</label>
+                <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Phone Number</label>
                 <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. +974 6648 6076" className="field-style w-full" />
               </div>
               <div className="flex items-center justify-end gap-3 border-t border-ink-100 pt-4">

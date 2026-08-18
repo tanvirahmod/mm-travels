@@ -5,7 +5,7 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export type HeroContent = {
+export type HeroSlide = {
   id: string;
   badge_text: string;
   headline: string;
@@ -13,7 +13,12 @@ export type HeroContent = {
   subtitle: string;
   description: string;
   background_image_url: string;
-  feature_tags: string[];
+  primary_btn_text: string | null;
+  primary_btn_url: string | null;
+  secondary_btn_text: string | null;
+  secondary_btn_url: string | null;
+  slide_order: number;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -80,6 +85,13 @@ export type Agent = {
   phone: string;
 };
 
+export type SiteSettings = {
+  hero_bg_image: string;
+  hero_title: string;
+  hero_subtitle: string;
+  license_number: string;
+};
+
 export type VisaApplication = {
   id: string;
   full_name: string;
@@ -100,6 +112,20 @@ export type TourApplication = {
   tour_id: string;
   tour_title: string;
   status: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Announcement = {
+  id: string;
+  custom_title: string;
+  badge: string;
+  badge_color?: string;
+  link_type: string;
+  link_id: string | null;
+  custom_url: string | null;
+  is_active: boolean;
+  display_order: number;
   created_at: string;
   updated_at: string;
 };

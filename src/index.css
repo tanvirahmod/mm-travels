@@ -5,9 +5,17 @@
 @tailwind utilities;
 
 :root {
+  --color-brand-500: #1E63FF;
+  --color-brand-600: #1551D8;
+  --color-brand-400: #38BDF8;
+  --color-navy-900: #090D16;
+  --color-navy-800: #0F172A;
+  --color-cream-50: #F8FAFC;
+  --color-cream-100: #F1F5F9;
+  --color-cream-200: #E6F8F0;
   font-family: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  color: #0f172a;
-  background: #ffffff;
+  color: #0F172A;
+  background: #F8FAFC;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-synthesis: none;
@@ -21,7 +29,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: #ffffff;
+  background: #F8FAFC;
 }
 
 button,
@@ -42,7 +50,7 @@ a {
 }
 
 ::selection {
-  background: #ff4d00;
+  background: #1E63FF;
   color: #ffffff;
 }
 
@@ -52,11 +60,11 @@ a {
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full bg-brand-100 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-700 ring-1 ring-inset ring-brand-200;
+    @apply inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-600 ring-1 ring-inset ring-brand-100;
   }
 
   .section-title {
-    @apply font-display text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl;
+    @apply font-display text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl;
   }
 
   .lede {
@@ -64,11 +72,11 @@ a {
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-gradient px-6 py-3 text-sm font-bold text-white shadow-brand-soft transition hover:-translate-y-0.5 hover:shadow-glow;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-bold text-white shadow-brand-soft transition hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-glow;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-ink-200 bg-white px-5 py-3 text-sm font-bold text-ink-700 transition hover:border-brand-300 hover:text-brand-700;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-ink-200 bg-white px-5 py-3 text-sm font-bold text-ink-700 transition hover:border-brand-300 hover:text-brand-700;
   }
 
   .chip {

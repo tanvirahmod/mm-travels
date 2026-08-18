@@ -13,6 +13,7 @@ import {
   Send,
 } from 'lucide-react';
 import { supabase, type Tour, type Agent, type TourApplication } from '@/lib/supabase';
+import { FlightArc } from '@/components/TravelDecor';
 
 function TourDetails() {
   const { id } = useParams<{ id: string }>();
@@ -96,7 +97,8 @@ function TourDetails() {
           {/* Main Content */}
           <div className="space-y-8">
             {/* Title Banner */}
-            <div className="overflow-hidden rounded-2xl bg-brand-gradient p-6 text-white">
+            <div className="relative overflow-hidden rounded-2xl bg-brand-gradient p-6 text-white">
+              <FlightArc className="pointer-events-none absolute -right-6 -top-2 h-28 w-56 -scale-x-100 text-white/15" />
               <h1 className="font-display text-2xl font-extrabold sm:text-3xl">{tour.title}</h1>
               <div className="mt-4 flex flex-wrap items-center gap-3">
                 <span className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-xs font-bold backdrop-blur-sm"><Clock size={14} /> {tour.duration}</span>
@@ -108,11 +110,11 @@ function TourDetails() {
             {/* Price */}
             <div className="flex items-end gap-4">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Starting from</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-ink-500">Starting from</p>
                 <div className="flex items-baseline gap-3">
                   <p className="font-display text-3xl font-extrabold text-brand-600">৳{tour.price.toLocaleString()}</p>
                   {tour.original_price && (
-                    <p className="text-lg font-semibold text-ink-400 line-through">৳{tour.original_price.toLocaleString()}</p>
+                    <p className="text-lg font-semibold text-ink-500 line-through">৳{tour.original_price.toLocaleString()}</p>
                   )}
                 </div>
                 <p className="text-xs text-ink-500">per person</p>
@@ -124,20 +126,20 @@ function TourDetails() {
               <h3 className="font-display text-lg font-extrabold text-ink-900">Tour Planning</h3>
               <div className="mt-4 space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600"><Plane size={16} /></div>
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600"><Plane size={16} /></div>
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Starts From</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-ink-500">Starts From</p>
                     <p className="text-sm font-bold text-ink-900">Brisbane</p>
                   </div>
                 </div>
                 <div className="ml-4 border-l-2 border-dashed border-ink-200 pl-6 space-y-3">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Destination 1</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-ink-500">Destination 1</p>
                     <p className="text-sm font-bold text-ink-900">{tour.destination}</p>
                   </div>
                   {tour.sub_destinations.length > 0 && (
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-ink-400">Sub Destinations</p>
+                      <p className="text-xs font-bold uppercase tracking-wider text-ink-500">Sub Destinations</p>
                       <div className="flex flex-wrap gap-2">
                         {tour.sub_destinations.map((sub) => (
                           <span key={sub} className="rounded-full bg-ink-100 px-3 py-1 text-xs font-bold text-ink-700">{sub}</span>
@@ -162,7 +164,7 @@ function TourDetails() {
                         <p className="text-xs font-bold uppercase tracking-wider text-brand-600">Day {item.day}</p>
                         <p className="text-sm font-bold text-ink-900">{item.title}</p>
                       </div>
-                      <ChevronRight size={18} className={`shrink-0 text-ink-400 transition-transform ${expandedDay === item.day ? 'rotate-90' : ''}`} />
+                      <ChevronRight size={18} className={`shrink-0 text-ink-500 transition-transform ${expandedDay === item.day ? 'rotate-90' : ''}`} />
                     </button>
                     {expandedDay === item.day && (
                       <div className="border-t border-ink-100 bg-ink-50/50 px-5 py-4">
@@ -181,7 +183,7 @@ function TourDetails() {
                 <ul className="mt-4 space-y-3">
                   {(tour.includes && tour.includes.length > 0 ? tour.includes : ['Return flights', 'Hotel accommodation', 'Daily breakfast', 'Guided tours', 'Travel insurance']).map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-ink-700">
-                      <Check size={16} className="shrink-0 text-brand-500" strokeWidth={3} /> {item}
+                      <Check size={16} className="shrink-0 text-brand-600" strokeWidth={3} /> {item}
                     </li>
                   ))}
                 </ul>
@@ -224,7 +226,7 @@ function TourDetails() {
             <div className="overflow-hidden rounded-2xl bg-brand-gradient p-6 text-white">
               <h3 className="font-display text-base font-extrabold">{tour.title}</h3>
               <p className="mt-1 text-xs text-white/70">Submit your details and we will help you book this tour.</p>
-              <button onClick={() => setApplyOpen(true)} className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-bold text-brand-600 transition hover:bg-brand-50">
+              <button onClick={() => setApplyOpen(true)} className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-bold text-brand-600 transition hover:bg-cream-100">
                 Book Now
               </button>
             </div>
@@ -233,14 +235,14 @@ function TourDetails() {
       </section>
 
       {applyOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-950/70 px-5 py-8 backdrop-blur-sm" onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-900/70 px-5 py-8 backdrop-blur-sm" onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }}>
           <div className="w-full max-w-lg animate-fade-up rounded-3xl bg-white p-6 shadow-glass sm:p-8 border border-ink-100" onClick={(e) => e.stopPropagation()}>
             {submitted ? (
               <div className="my-10 text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 text-brand-600"><Check size={28} /></div>
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-50 text-brand-600"><Check size={28} /></div>
                 <h3 className="mt-4 text-lg font-extrabold text-ink-900">Thank You for Applying</h3>
                 <p className="mt-2 text-sm leading-6 text-ink-500">We Will Call You Soon</p>
-                <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="mt-6 rounded-xl bg-ink-900 px-5 py-3 text-sm font-bold text-white">Done</button>
+                <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="mt-6 rounded-xl bg-navy-900 px-5 py-3 text-sm font-bold text-white">Done</button>
               </div>
             ) : (
               <>
@@ -250,7 +252,7 @@ function TourDetails() {
                     <h2 className="font-display mt-1 text-2xl font-extrabold text-ink-900">{tour.title}</h2>
                     <p className="mt-1 text-sm text-ink-500">Book this tour package</p>
                   </div>
-                  <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="rounded-xl p-2 text-ink-400 transition hover:bg-ink-100"><X size={20} /></button>
+                  <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="rounded-xl p-2 text-ink-500 transition hover:bg-ink-100"><X size={20} /></button>
                 </div>
                 <form className="mt-6 space-y-4" onSubmit={async (e) => {
                   e.preventDefault();

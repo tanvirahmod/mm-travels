@@ -160,7 +160,7 @@ function AdminTours() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-ink-100 bg-white shadow-sm">
+      <div className="rounded-2xl border border-ink-100 bg-white shadow-soft">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
@@ -175,9 +175,9 @@ function AdminTours() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-400">Loading...</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-500">Loading...</td></tr>
               ) : tours.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-400">No tours found. Add one above.</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-500">No tours found. Add one above.</td></tr>
               ) : tours.map((tour) => (
                 <tr key={tour.id} className="transition hover:bg-ink-50/50">
                   <td className="px-6 py-4 font-semibold text-ink-900">{tour.title}</td>
@@ -187,10 +187,10 @@ function AdminTours() {
                   <td className="px-6 py-4 font-semibold text-brand-600">৳{tour.price.toLocaleString()}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button onClick={() => openEdit(tour)} className="rounded-lg p-2 text-ink-400 transition hover:bg-brand-50 hover:text-brand-600">
+                      <button onClick={() => openEdit(tour)} className="rounded-lg p-2 text-ink-500 transition hover:bg-cream-100 hover:text-brand-600">
                         <Pencil size={14} />
                       </button>
-                      <button onClick={() => handleDelete(tour.id)} className="rounded-lg p-2 text-ink-400 transition hover:bg-pop-red/10 hover:text-pop-red">
+                      <button onClick={() => handleDelete(tour.id)} className="rounded-lg p-2 text-ink-500 transition hover:bg-brand-500/10 hover:text-brand-600">
                         <Trash2 size={14} />
                       </button>
                     </div>
@@ -216,47 +216,47 @@ function AdminTours() {
             <div className="max-h-[calc(100vh-80px)] overflow-y-auto p-6">
               <div className="grid gap-5 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Title</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Title</label>
                   <input value={form.title} onChange={(e) => updateField('title', e.target.value)} placeholder="Tour title" className="field-style w-full" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Destination</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Destination</label>
                   <select value={form.destination} onChange={(e) => updateField('destination', e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select destination</option>
                     {destinations.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Tour Type</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Tour Type</label>
                   <select value={form.tour_type} onChange={(e) => updateField('tour_type', e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select type</option>
                     {tourTypes.map((t) => <option key={t.id} value={t.name}>{t.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Duration</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Duration</label>
                   <input value={form.duration} onChange={(e) => updateField('duration', e.target.value)} placeholder="e.g. 5 Days / 4 Nights" className="field-style w-full" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Price (৳)</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Price (৳)</label>
                   <input type="number" value={form.price} onChange={(e) => updateField('price', parseFloat(e.target.value) || 0)} placeholder="Price" className="field-style w-full" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Original Price (৳)</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Original Price (৳)</label>
                   <input type="number" value={form.original_price ?? ''} onChange={(e) => updateField('original_price', e.target.value ? parseFloat(e.target.value) : null)} placeholder="Original price (optional)" className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Image URL</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Image URL</label>
                   <input value={form.image_url} onChange={(e) => updateField('image_url', e.target.value)} placeholder="https://..." className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Start Location</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Start Location</label>
                   <input value={(form as unknown as Record<string, string>).start_location || ''} onChange={(e) => updateField('start_location' as keyof typeof form, e.target.value)} placeholder="e.g. Brisbane" className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
                   <div className="flex items-center justify-between">
-                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Sub Destinations</label>
-                    <button type="button" onClick={() => addListItem('sub_destinations')} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-700">
+                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Sub Destinations</label>
+                    <button type="button" onClick={() => addListItem('sub_destinations')} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-600">
                       <Plus size={13} /> Add
                     </button>
                   </div>
@@ -264,7 +264,7 @@ function AdminTours() {
                     {form.sub_destinations.map((sub, i) => (
                       <span key={i} className="flex items-center gap-1 rounded-full bg-ink-100 px-3 py-1.5 text-xs font-bold text-ink-700">
                         {sub}
-                        <button type="button" onClick={() => removeListItem('sub_destinations', i)} className="text-ink-400 transition hover:text-pop-red">
+                        <button type="button" onClick={() => removeListItem('sub_destinations', i)} className="text-ink-500 transition hover:text-pop-red">
                           <X size={12} />
                         </button>
                       </span>
@@ -274,8 +274,8 @@ function AdminTours() {
 
                 <div className="sm:col-span-2">
                   <div className="flex items-center justify-between">
-                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Day-by-Day Itinerary</label>
-                    <button type="button" onClick={addItineraryDay} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-700">
+                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Day-by-Day Itinerary</label>
+                    <button type="button" onClick={addItineraryDay} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-600">
                       <Plus size={13} /> Add Day
                     </button>
                   </div>
@@ -284,7 +284,7 @@ function AdminTours() {
                       <div key={item.day} className="rounded-xl border border-ink-200 p-4">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold uppercase tracking-wider text-brand-600">Day {item.day}</span>
-                          <button type="button" onClick={() => removeItineraryDay(index)} className="text-ink-400 transition hover:text-pop-red">
+                          <button type="button" onClick={() => removeItineraryDay(index)} className="text-ink-500 transition hover:text-pop-red">
                             <Trash2 size={14} />
                           </button>
                         </div>
@@ -299,14 +299,14 @@ function AdminTours() {
 
                 <div className="sm:col-span-2">
                   <div className="flex items-center justify-between">
-                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Includes</label>
-                    <button type="button" onClick={() => addListItem('includes')} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-700">
+                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Includes</label>
+                    <button type="button" onClick={() => addListItem('includes')} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-600">
                       <Plus size={13} /> Add
                     </button>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {form.includes.map((inc, i) => (
-                      <span key={i} className="flex items-center gap-1 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700">
+                      <span key={i} className="flex items-center gap-1 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-600">
                         {inc}
                         <button type="button" onClick={() => removeListItem('includes', i)} className="text-brand-600/60 transition hover:text-pop-red">
                           <X size={12} />
@@ -318,8 +318,8 @@ function AdminTours() {
 
                 <div className="sm:col-span-2">
                   <div className="flex items-center justify-between">
-                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Excludes</label>
-                    <button type="button" onClick={() => addListItem('excludes')} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-700">
+                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Excludes</label>
+                    <button type="button" onClick={() => addListItem('excludes')} className="flex items-center gap-1 text-xs font-bold text-brand-600 transition hover:text-brand-600">
                       <Plus size={13} /> Add
                     </button>
                   </div>

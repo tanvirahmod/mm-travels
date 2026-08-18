@@ -12,14 +12,14 @@ function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => void })
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-950/70 px-5 py-8 backdrop-blur-sm" onClick={handleClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-900/70 px-5 py-8 backdrop-blur-sm" onClick={handleClose}>
       <div className="w-full max-w-lg animate-fade-up rounded-3xl bg-white p-6 shadow-glass sm:p-8 border border-ink-100" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-600">Start your journey</p>
             <h2 className="font-display mt-1 text-2xl font-extrabold text-ink-900">How can we help?</h2>
           </div>
-          <button onClick={handleClose} className="rounded-xl p-2 text-ink-400 transition hover:bg-ink-100 hover:text-ink-900" aria-label="Close enquiry form">
+          <button onClick={handleClose} className="rounded-xl p-2 text-brand-500 transition hover:bg-ink-100 hover:text-ink-900" aria-label="Close enquiry form">
             <X size={20} />
           </button>
         </div>
@@ -27,8 +27,8 @@ function EnquiryModal({ open, onClose }: { open: boolean; onClose: () => void })
           <div className="my-10 text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 text-brand-600"><Check size={28} /></div>
             <h3 className="mt-4 text-lg font-extrabold text-ink-900">Enquiry received</h3>
-            <p className="mt-2 text-sm leading-6 text-ink-500">Thank you. One of our travel experts will be in touch shortly.</p>
-            <button onClick={handleClose} className="mt-6 rounded-xl bg-ink-900 px-5 py-3 text-sm font-bold text-white">Done</button>
+            <p className="mt-2 text-sm leading-6 text-brand-500">Thank you. One of our travel experts will be in touch shortly.</p>
+            <button onClick={handleClose} className="mt-6 rounded-xl bg-navy-900 px-5 py-3 text-sm font-bold text-white">Done</button>
           </div>
         ) : (
           <form className="mt-6 space-y-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>

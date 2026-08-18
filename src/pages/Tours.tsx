@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { MapPin, Plane, Search, Clock } from 'lucide-react';
 import { supabase, type Tour } from '@/lib/supabase';
+import { PageHeroDecor } from '@/components/TravelDecor';
 
 function Tours() {
   const [tours, setTours] = useState<Tour[]>([]);
@@ -34,9 +35,11 @@ function Tours() {
   return (
     <>
       {/* Hero Banner */}
-      <section className="relative isolate overflow-hidden bg-ink-950 py-16 sm:py-20">
+      <section className="relative isolate overflow-hidden bg-navy-900 py-16 sm:py-20">
         <div className="absolute inset-0 -z-10 bg-cover bg-center opacity-50" style={{ backgroundImage: `linear-gradient(110deg, rgba(2,6,23,.92), rgba(30,58,138,.5)), url(https://images.pexels.com/photos/17983843/pexels-photo-17983843.jpeg?auto=compress&cs=tinysrgb&w=1800)` }} />
         <div className="absolute inset-0 -z-10 bg-mesh-pop opacity-60" />
+        <PageHeroDecor />
+
         <div className="container-x max-w-7xl">
           <div className="flex items-center gap-2 text-xs font-semibold text-white/60">
             <Link to="/" className="transition hover:text-white">Home</Link>
@@ -62,12 +65,12 @@ function Tours() {
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <Search size={48} className="text-ink-300" />
             <p className="mt-4 text-lg font-bold text-ink-500">No tours found</p>
-            <p className="text-sm text-ink-400">Try adjusting your filters or check back later for exciting tour packages.</p>
+            <p className="text-sm text-ink-500">Try adjusting your filters or check back later for exciting tour packages.</p>
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {tours.map((tour) => (
-              <div key={tour.id} className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+              <div key={tour.id} className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
                 <div className="relative h-48 overflow-hidden">
                   <img src={tour.image_url || 'https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg?auto=compress&cs=tinysrgb&w=900'} alt={tour.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -75,19 +78,19 @@ function Tours() {
                     {tour.duration}
                   </span>
                   <span className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-ink-900 backdrop-blur-sm">
-                    <MapPin size={12} className="text-brand-500" /> {tour.destination}
+                    <MapPin size={12} className="text-brand-600" /> {tour.destination}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <h3 className="font-display text-base font-extrabold leading-tight text-ink-900 line-clamp-2">{tour.title}</h3>
                   <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-ink-500">
-                    <Clock size={14} className="text-brand-500" /> {tour.duration}
+                    <Clock size={14} className="text-brand-600" /> {tour.duration}
                     <span className="text-ink-300">|</span>
-                    <MapPin size={14} className="text-brand-500" /> {tour.destination}
+                    <MapPin size={14} className="text-brand-600" /> {tour.destination}
                   </div>
                   <div className="mt-auto flex items-end justify-between border-t border-ink-100 pt-4">
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-ink-400">Price per person</p>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-ink-500">Price per person</p>
                       <p className="font-display text-xl font-extrabold text-brand-600">৳{tour.price.toLocaleString()}</p>
                     </div>
                     <Link to={`/tours/${tour.id}`} className="btn-primary">

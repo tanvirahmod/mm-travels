@@ -129,7 +129,7 @@ function AdminVisas() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-ink-100 bg-white shadow-sm">
+      <div className="rounded-2xl border border-ink-100 bg-white shadow-soft">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
@@ -143,9 +143,9 @@ function AdminVisas() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {loading ? (
-                <tr><td colSpan={5} className="px-6 py-8 text-center text-ink-400">Loading...</td></tr>
+                <tr><td colSpan={5} className="px-6 py-8 text-center text-ink-500">Loading...</td></tr>
               ) : visas.length === 0 ? (
-                <tr><td colSpan={5} className="px-6 py-8 text-center text-ink-400">No visa requirements found. Add one above.</td></tr>
+                <tr><td colSpan={5} className="px-6 py-8 text-center text-ink-500">No visa requirements found. Add one above.</td></tr>
               ) : visas.map((visa) => (
                 <tr key={visa.id} className="transition hover:bg-ink-50/50">
                   <td className="px-6 py-4 font-semibold text-ink-900">{visa.country}</td>
@@ -154,10 +154,10 @@ function AdminVisas() {
                   <td className="px-6 py-4 text-ink-600">{visa.requirements.length} items</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button onClick={() => openEdit(visa)} className="rounded-lg p-2 text-ink-400 transition hover:bg-brand-50 hover:text-brand-600">
+                      <button onClick={() => openEdit(visa)} className="rounded-lg p-2 text-ink-500 transition hover:bg-brand-50 hover:text-brand-600">
                         <Pencil size={14} />
                       </button>
-                      <button onClick={() => handleDelete(visa.id)} className="rounded-lg p-2 text-ink-400 transition hover:bg-pop-red/10 hover:text-pop-red">
+                      <button onClick={() => handleDelete(visa.id)} className="rounded-lg p-2 text-ink-500 transition hover:bg-brand-500/10 hover:text-brand-600">
                         <Trash2 size={14} />
                       </button>
                     </div>
@@ -183,36 +183,36 @@ function AdminVisas() {
             <div className="max-h-[calc(100vh-80px)] overflow-y-auto p-6">
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Country</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Country</label>
                   <select value={form.country} onChange={(e) => updateField('country', e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select country</option>
                     {countries.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Visa Type</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Visa Type</label>
                   <select value={form.visa_type} onChange={(e) => updateField('visa_type', e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select type</option>
                     {visaTypes.map((v) => <option key={v.id} value={v.name}>{v.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Visa Fee (৳)</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Visa Fee (৳)</label>
                   <input type="number" value={form.fee} onChange={(e) => updateField('fee', parseFloat(e.target.value) || 0)} placeholder="Fee amount" className="field-style w-full" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Service Charge (৳)</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Service Charge (৳)</label>
                   <input type="number" value={form.service_charge} onChange={(e) => updateField('service_charge', parseFloat(e.target.value) || 0)} placeholder="Service charge amount" className="field-style w-full" />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Note</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Note</label>
                   <textarea value={form.note} onChange={(e) => updateField('note', e.target.value)} placeholder="Additional note or instructions for this visa" className="field-style w-full resize-none" rows={3} />
                 </div>
 
                 <div className="sm:col-span-2">
                   <div className="flex items-center justify-between">
-                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Document Checklist</label>
+                    <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Document Checklist</label>
                     <div className="flex gap-2">
                       <input
                         value={newReqTitle}
@@ -238,7 +238,7 @@ function AdminVisas() {
                           <p className="text-sm font-bold text-ink-900">{req.title}</p>
                           <p className="text-xs text-ink-600">{req.detail}</p>
                         </div>
-                        <button type="button" onClick={() => removeRequirement(i)} className="text-ink-400 transition hover:text-pop-red">
+                        <button type="button" onClick={() => removeRequirement(i)} className="text-ink-500 transition hover:text-pop-red">
                           <Trash2 size={14} />
                         </button>
                       </div>

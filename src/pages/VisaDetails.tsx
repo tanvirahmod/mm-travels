@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { supabase, type VisaRequirement, type Agent, type VisaApplication } from '@/lib/supabase';
 import { visaData, type VisaInfo } from './VisaServices';
+import { GlobeRing } from '@/components/TravelDecor';
 
 const countryCodeMap: Record<string, string> = {
   'United Arab Emirates': 'AE',
@@ -131,7 +132,8 @@ function VisaDetails() {
       </section>
 
       {/* Header Summary */}
-      <section className="container-x max-w-7xl py-6">
+      <section className="container-x relative max-w-7xl py-6">
+        <GlobeRing className="pointer-events-none absolute -right-10 -top-6 h-56 w-56 text-brand-500/10" />
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-4xl">
@@ -140,7 +142,7 @@ function VisaDetails() {
             <div>
               <h1 className="font-display text-2xl font-extrabold leading-tight text-ink-900 sm:text-3xl">{visa.country} Visa Application & Requirements For Bangladeshi</h1>
               <div className="mt-2 flex flex-wrap gap-2">
-                <span className="flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700"><MapPin size={13} /> {visa.country}</span>
+                <span className="flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-600"><MapPin size={13} /> {visa.country}</span>
                 <span className="flex items-center gap-1.5 rounded-full bg-ink-100 px-3 py-1.5 text-xs font-bold text-ink-700"><FileText size={13} /> {visa.visa_type}</span>
               </div>
             </div>
@@ -171,7 +173,7 @@ function VisaDetails() {
                  ))}
                </div>
                {visa.note && (
-                 <div className="mt-6 rounded-xl bg-brand-50 p-4 text-sm font-semibold text-brand-700">
+                 <div className="mt-6 rounded-xl bg-brand-50 p-4 text-sm font-semibold text-brand-600">
                    <span className="block text-[10px] font-bold uppercase tracking-wider text-brand-500">Note</span>
                    {visa.note}
                  </div>
@@ -194,11 +196,11 @@ function VisaDetails() {
                   <span className="text-sm font-bold text-ink-900">৳{serviceCharge.toLocaleString()}</span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl bg-brand-50 px-4 py-3">
-                  <span className="text-sm font-bold text-brand-700">Total</span>
+                  <span className="text-sm font-bold text-brand-600">Total</span>
                   <span className="text-base font-extrabold text-brand-600">৳{total.toLocaleString()}</span>
                 </div>
               </div>
-              <p className="mt-3 text-xs text-ink-400">*Fees are subject to change by the embassy.</p>
+              <p className="mt-3 text-xs text-ink-500">*Fees are subject to change by the embassy.</p>
             </div>
 
             {/* Call For Visa Information */}
@@ -242,7 +244,7 @@ function VisaDetails() {
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 text-brand-600"><Check size={28} /></div>
                 <h3 className="mt-4 text-lg font-extrabold text-ink-900">Thank You for Applying</h3>
                 <p className="mt-2 text-sm leading-6 text-ink-500">We Will Call You Soon</p>
-                <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="mt-6 rounded-xl bg-ink-900 px-5 py-3 text-sm font-bold text-white">Done</button>
+                <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="mt-6 rounded-xl bg-navy-900 px-5 py-3 text-sm font-bold text-white">Done</button>
               </div>
             ) : (
               <>
@@ -252,7 +254,7 @@ function VisaDetails() {
                     <h2 className="font-display mt-1 text-2xl font-extrabold text-ink-900">{selectedVisa.country}</h2>
                     <p className="mt-1 text-sm text-ink-500">{selectedVisa.visaType} Visa</p>
                   </div>
-                  <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="rounded-xl p-2 text-ink-400 transition hover:bg-ink-100"><X size={20} /></button>
+                  <button onClick={() => { setApplyOpen(false); setSubmitted(false); setForm({ full_name: '', address: '', mobile_number: '' }); }} className="rounded-xl p-2 text-ink-500 transition hover:bg-ink-100"><X size={20} /></button>
                 </div>
                 <form className="mt-6 space-y-4" onSubmit={async (e) => {
                   e.preventDefault();

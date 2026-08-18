@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Plane, Search } from 'lucide-react';
 import { supabase, type VisaRequirement } from '@/lib/supabase';
+import { PageHeroDecor } from '@/components/TravelDecor';
 
 const fallbackImage = 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80';
 
@@ -74,9 +75,10 @@ function VisaSearch() {
   return (
     <>
       {/* Hero Banner */}
-      <section className="relative isolate overflow-hidden bg-ink-950 py-16 sm:py-20">
+      <section className="relative isolate overflow-hidden bg-navy-900 py-16 sm:py-20">
         <div className="absolute inset-0 -z-10 bg-cover bg-center opacity-50" style={{ backgroundImage: `linear-gradient(110deg, rgba(2,6,23,.92), rgba(30,58,138,.5)), url(https://images.pexels.com/photos/2098953/pexels-photo-2098953.jpeg?auto=compress&cs=tinysrgb&w=1800)` }} />
         <div className="absolute inset-0 -z-10 bg-mesh-pop opacity-60" />
+        <PageHeroDecor />
         <div className="container-x max-w-7xl">
           <div className="flex items-center gap-2 text-xs font-semibold text-white/60">
             <Link to="/" className="transition hover:text-white">Home</Link>
@@ -102,12 +104,12 @@ function VisaSearch() {
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <Search size={48} className="text-ink-300" />
             <p className="mt-4 text-lg font-bold text-ink-500">No visa requirements found</p>
-            <p className="text-sm text-ink-400">Check back later or contact us for custom visa inquiries.</p>
+            <p className="text-sm text-ink-500">Check back later or contact us for custom visa inquiries.</p>
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {requirements.map((req) => (
-              <div key={req.id} className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+              <div key={req.id} className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
                 <div className="relative h-48 overflow-hidden bg-brand-50">
                   <img 
                     src={getFlagImageUrl(req.country)} 
@@ -134,8 +136,8 @@ function VisaSearch() {
                   )}
                   <div className="mt-auto flex items-end justify-between border-t border-ink-100 pt-4">
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-ink-400">Starting From</p>
-                      <p className="font-display text-xl font-extrabold text-brand-600">৳{req.fee.toLocaleString()} <span className="text-xs font-normal text-ink-400">Per Person</span></p>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-ink-500">Starting From</p>
+                      <p className="font-display text-xl font-extrabold text-brand-600">৳{req.fee.toLocaleString()} <span className="text-xs font-normal text-ink-500">Per Person</span></p>
                     </div>
                     <button onClick={() => navigate(`/visa/${req.id}`)} className="btn-primary">
                       Apply Now <Plane size={15} />

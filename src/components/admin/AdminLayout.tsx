@@ -9,11 +9,12 @@ import {
   Users,
   MapPin,
   X,
-  Sparkles,
+  Images,
   LayoutGrid,
   ChevronRight,
   UserPlus,
   ClipboardList,
+  Megaphone,
 } from 'lucide-react';
 
 import { useApp } from '@/components/AppContext';
@@ -38,8 +39,9 @@ const navGroups: NavGroup[] = [
   {
     label: 'Website',
     items: [
-      { to: '/admin/hero', icon: Sparkles, label: 'Hero Section' },
+       { to: '/admin/hero-slider', icon: Images, label: 'Hero Slider' },
       { to: '/admin/cards', icon: LayoutGrid, label: 'Service Cards' },
+      { to: '/admin/announcements', icon: Megaphone, label: 'Announcement Bar' },
     ],
   },
   {
@@ -83,7 +85,7 @@ function AdminLayout() {
       <div className="flex min-h-[70vh] items-center justify-center bg-brand-gradient-soft px-5 py-16">
         <div className="w-full max-w-md">
           <div className="overflow-hidden rounded-3xl bg-white shadow-card border border-ink-100">
-            <div className="relative bg-ink-950 px-7 py-8 text-center text-white">
+            <div className="relative bg-navy-900 px-7 py-8 text-center text-white">
               <div className="pointer-events-none absolute inset-0 bg-mesh-pop opacity-50" />
               <div className="relative mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-gradient">
                 <LayoutDashboard size={26} className="text-white" />
@@ -130,7 +132,7 @@ function AdminLayout() {
           <nav className="flex-1 space-y-5 overflow-y-auto p-3">
             {navGroups.map((group) => (
               <div key={group.label}>
-                <p className="px-4 pb-2 pt-1 text-[11px] font-bold uppercase tracking-wider text-ink-400">
+                <p className="px-4 pb-2 pt-1 text-[11px] font-bold uppercase tracking-wider text-ink-500">
                   {group.label}
                 </p>
                 <div className="space-y-1">
@@ -171,7 +173,7 @@ function AdminLayout() {
             </button>
             <button
               onClick={handleLogout}
-              className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-ink-600 transition hover:bg-pop-red/10 hover:text-pop-red"
+              className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-ink-600 transition hover:bg-brand-500/10 hover:text-brand-600"
             >
               <LogOut size={18} />
               Logout
@@ -188,7 +190,7 @@ function AdminLayout() {
             <span className="font-display text-base font-extrabold text-ink-900">Admin Panel</span>
           </div>
           <div className="sticky top-0 z-20 hidden items-center gap-2 border-b border-ink-100 bg-white/95 px-6 py-3 text-sm backdrop-blur-xl lg:flex">
-            <span className="font-semibold text-ink-400">{activeGroup?.label}</span>
+            <span className="font-semibold text-ink-500">{activeGroup?.label}</span>
             {activeItem && (
               <>
                 <ChevronRight size={14} className="text-ink-300" />
@@ -224,7 +226,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleLogin} className="space-y-5 p-7">
       <label className="block">
-        <span className="text-xs font-bold uppercase tracking-wider text-ink-400">Admin ID</span>
+        <span className="text-xs font-bold uppercase tracking-wider text-ink-500">Admin ID</span>
         <input
           type="text"
           value={loginId}
@@ -235,7 +237,7 @@ function LoginForm() {
         />
       </label>
       <label className="block">
-        <span className="text-xs font-bold uppercase tracking-wider text-ink-400">Password</span>
+        <span className="text-xs font-bold uppercase tracking-wider text-ink-500">Password</span>
         <input
           type="password"
           value={loginPass}
@@ -246,7 +248,7 @@ function LoginForm() {
         />
       </label>
       {loginError && (
-        <p className="rounded-xl bg-pop-red/10 border border-pop-red/20 px-4 py-3 text-sm font-semibold text-pop-red">{loginError}</p>
+        <p className="rounded-xl bg-brand-500/10 border border-brand-500/20 px-4 py-3 text-sm font-semibold text-brand-600">{loginError}</p>
       )}
       <button type="submit" className="btn-primary w-full">
         <LayoutDashboard size={16} /> Sign In

@@ -24,6 +24,8 @@ import {
 import { useNavigate as useRouterNavigate } from 'react-router-dom';
 import { useApp } from '@/components/AppContext';
 import Hero from '@/components/Hero';
+import AirlineTicker from '@/components/AirlineTicker';
+import { FlightDivider, GlobeRing, TravelStamp, FlightArc, TravelEyebrow, Cloud, PlaneMark } from '@/components/TravelDecor';
 import { supabase, type ServiceCard } from '@/lib/supabase';
 
 const destinationImages = [
@@ -62,14 +64,14 @@ const serviceIconMap: Record<string, typeof Ticket> = {
 };
 
 const serviceIconTones: Record<string, string> = {
-  AirTicketBooking: 'bg-brand-500',
-  VisaProcessing: 'bg-pop-red',
-  UmrahHajjPackages: 'bg-accent-600',
-  HolidayPackages: 'bg-accent-500',
-  HotelBooking: 'bg-accent-700',
+  AirTicketBooking: 'bg-brand-50',
+  VisaProcessing: 'bg-brand-600',
+  UmrahHajjPackages: 'bg-brand-600',
+  HolidayPackages: 'bg-brand-500',
+  HotelBooking: 'bg-brand-700',
   TravelInsurance: 'bg-brand-600',
-  AirportTransfer: 'bg-brand-500',
-  CustomTourRequest: 'bg-pop-red',
+  AirportTransfer: 'bg-brand-50',
+  CustomTourRequest: 'bg-brand-600',
 };
 
 const fallbackImage = 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80';
@@ -160,27 +162,30 @@ function Home() {
   return (
     <>
       <Hero />
+      <AirlineTicker />
 
       {/* Services grid */}
-      <section className="container-x max-w-7xl py-12 sm:py-16">
+      <section className="relative container-x max-w-7xl overflow-hidden py-12 sm:py-16">
+        <Cloud className="pointer-events-none absolute -right-8 -top-6 h-24 w-52 text-brand-500/10" />
+        <FlightArc className="pointer-events-none absolute right-10 top-2 h-20 w-44 text-brand-500/10" />
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <span className="eyebrow">Everything in one place</span>
+            <TravelEyebrow>Everything in one place</TravelEyebrow>
             <h2 className="section-title mt-4">Travel made refreshingly easy.</h2>
           </div>
           <button onClick={() => navigate('services')} className="flex items-center gap-1.5 text-sm font-bold text-brand-600 transition hover:gap-2.5">
             View all services <ChevronRight size={17} />
           </button>
         </div>
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((service) => {
             const Icon = serviceIconMap[getServiceKey(service.title)] || Ticket;
-            const iconTone = serviceIconTones[getServiceKey(service.title)] || 'bg-brand-500';
+            const iconTone = serviceIconTones[getServiceKey(service.title)] || 'bg-brand-50';
             return (
               <button
                 key={service.id}
                 onClick={() => routerNavigate('/services')}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-ink-100 bg-white text-left shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-soft"
               >
                 <div className="relative h-32 overflow-hidden bg-brand-50">
                   <img 
@@ -194,7 +199,7 @@ function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </div>
                 <div className="flex flex-1 flex-col justify-center gap-2 p-4">
-                  <span className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${iconTone} text-white shadow-sm`}>
+                  <span className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${iconTone} text-white shadow-soft`}>
                     <Icon size={16} strokeWidth={2} />
                   </span>
                   <h3 className="font-display text-sm font-extrabold leading-5 text-ink-900">{service.title}</h3>
@@ -207,16 +212,16 @@ function Home() {
       </section>
 
       {/* Divider */}
-      <div className="container-x max-w-7xl">
-        <div className="h-px bg-gradient-to-r from-transparent via-ink-200 to-transparent" />
-      </div>
+      <FlightDivider className="container-x max-w-7xl py-2" />
 
       {/* Destinations */}
       <section className="relative overflow-hidden bg-brand-gradient-soft py-16 sm:py-20">
+        <GlobeRing className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-brand-500/10" />
+        <TravelStamp className="pointer-events-none absolute -left-10 bottom-10 h-40 w-40 text-brand-500/10 [animation:none]" />
         <div className="container-x max-w-7xl">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="text-center sm:text-left">
-              <span className="eyebrow">Go somewhere new</span>
+              <TravelEyebrow icon={<GlobeRing className="h-3.5 w-3.5" />}>Go somewhere new</TravelEyebrow>
               <h2 className="section-title mt-4">Popular destinations</h2>
               <p className="lede mx-auto mt-3 max-w-xl text-ink-500 sm:mx-0">A little inspiration for your next escape, carefully chosen by our travel specialists.</p>
             </div>
@@ -226,7 +231,7 @@ function Home() {
           </div>
           <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {destinations.map((destination) => (
-              <button key={destination.name} onClick={() => routerNavigate('/tours?destination=' + encodeURIComponent(destination.fullName))} className="group relative min-h-[220px] overflow-hidden rounded-2xl text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+              <button key={destination.name} onClick={() => routerNavigate('/tours?destination=' + encodeURIComponent(destination.fullName))} className="group relative min-h-[220px] overflow-hidden rounded-2xl text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
                 <img 
                   src={destination.image} 
                   alt={destination.fullName}
@@ -236,7 +241,7 @@ function Home() {
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute inset-0 bg-brand-500/0 transition duration-300 group-hover:bg-brand-500/10" />
+                <div className="absolute inset-0 bg-brand-50/0 transition duration-300 group-hover:bg-brand-50/10" />
                 <div className="absolute top-3 right-3">
                   <span className="bg-black/60 text-white backdrop-blur-sm px-2.5 py-1 text-xs font-semibold rounded-md">{destination.badge}</span>
                 </div>
@@ -256,15 +261,14 @@ function Home() {
       </section>
 
       {/* Divider */}
-      <div className="container-x max-w-7xl">
-        <div className="h-px bg-gradient-to-r from-transparent via-ink-200 to-transparent" />
-      </div>
+      <FlightDivider className="container-x max-w-7xl py-2" />
 
       {/* Why MM Travels */}
       <section className="relative overflow-hidden bg-brand-gradient-soft py-16 sm:py-24">
+        <GlobeRing className="pointer-events-none absolute -left-16 -bottom-16 h-72 w-72 text-brand-500/10" />
         <div className="container-x max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Why MM Travels</span>
+           <div className="mx-auto max-w-2xl text-center">
+            <TravelEyebrow>Why MM Travels</TravelEyebrow>
             <h2 className="section-title mt-4">The thoughtful way to travel.</h2>
             <p className="lede mt-5 text-ink-500">Whether you&apos;re visiting family, chasing a new horizon, or making a sacred journey, our team takes care of the details so you can enjoy the moment.</p>
           </div>
@@ -275,8 +279,8 @@ function Home() {
                 title: 'Expert Guidance',
                 subtitle: 'Advice from specialists who know the way.',
                 points: ['Customized itineraries', 'Local destination insights', 'Tailored travel options'],
-                tone: 'bg-brand-100 text-brand-700',
-                hoverTone: 'group-hover:bg-brand-200',
+                tone: 'bg-brand-50 text-brand-600',
+                hoverTone: 'group-hover:bg-brand-50',
               },
               {
                 icon: ShieldCheck,
@@ -284,26 +288,26 @@ function Home() {
                 subtitle: 'Competitive fares with zero hidden surprises.',
                 points: ['All-inclusive fare breakdowns', 'No extra processing fees', 'Best value guarantee'],
                 tone: 'bg-brand-50 text-brand-600',
-                hoverTone: 'group-hover:bg-brand-100',
+                hoverTone: 'group-hover:bg-brand-50',
               },
               {
                 icon: FileCheck2,
                 title: 'Hassle-Free Visa Services',
                 subtitle: 'End-to-end document & visa assistance.',
                 points: ['Document pre-verification', 'Fast application filing', 'High success rate tracking'],
-                tone: 'bg-pop-red/10 text-pop-red',
-                hoverTone: 'group-hover:bg-pop-red/20',
+                tone: 'bg-brand-600/10 text-pop-red',
+                hoverTone: 'group-hover:bg-brand-600/20',
               },
               {
                 icon: Headphones,
                 title: '24/7 Dedicated Support',
                 subtitle: 'Personal support before, during, and after travel.',
                 points: ['Instant WhatsApp assistance', 'Airport arrival guidance', 'On-call emergency help'],
-                tone: 'bg-accent-500/10 text-accent-600',
-                hoverTone: 'group-hover:bg-accent-500/20',
+                tone: 'bg-brand-500/10 text-brand-600',
+                hoverTone: 'group-hover:bg-brand-600/20',
               },
             ].map((item) => (
-              <div key={item.title} className="group rounded-2xl border border-orange-100/60 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-md">
+              <div key={item.title} className="group rounded-2xl border border-orange-100/60 bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
                 <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${item.tone} ${item.hoverTone} transition-colors duration-300`}>
                   <item.icon size={22} strokeWidth={2} />
                 </div>
@@ -312,7 +316,7 @@ function Home() {
                 <ul className="mt-3 space-y-1.5">
                   {item.points.map((point) => (
                     <li key={point} className="flex items-center gap-2 text-xs text-ink-600">
-                      <Check size={12} className="shrink-0 text-brand-500" strokeWidth={3} />
+                      <Check size={12} className="shrink-0 text-brand-600" strokeWidth={3} />
                       {point}
                     </li>
                   ))}
@@ -327,11 +331,14 @@ function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-ink-950 py-16 sm:py-24">
+      <section className="relative overflow-hidden bg-navy-900 py-16 sm:py-24">
         <div className="absolute inset-0 -z-10 bg-mesh-pop opacity-30" />
+        <Cloud className="pointer-events-none absolute -right-8 top-10 h-24 w-52 text-white/10 animate-float" />
+        <PlaneMark className="pointer-events-none absolute left-12 top-1/4 h-6 w-6 -rotate-12 text-brand-300/60 animate-float [animation-delay:.8s]" />
+        <FlightArc className="pointer-events-none absolute left-4 bottom-16 h-28 w-56 -rotate-6 text-brand-300/20" />
         <div className="container-x max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Testimonials</span>
+            <TravelEyebrow>Testimonials</TravelEyebrow>
             <h2 className="section-title mt-4 text-white">What Our Happy Travelers Say</h2>
             <p className="lede mt-4 text-white/60">Trusted by thousands of travelers from Bangladesh, Qatar, and around the world.</p>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold text-white backdrop-blur-md border border-white/10">
@@ -341,24 +348,24 @@ function Home() {
               <span>1,200+ Verified Reviews on Google & Facebook</span>
             </div>
           </div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((item) => (
-              <div key={item.name} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10">
+              <div key={item.name} className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10 sm:p-6">
                 <div className="absolute top-4 right-4 text-white/10 transition duration-300 group-hover:text-white/20">
-                  <Quote size={32} />
+                  <Quote size={26} />
                 </div>
                 <div className="flex items-center gap-3">
-                  <img src={item.avatar} alt={item.name} className="h-12 w-12 rounded-full object-cover ring-2 ring-white/20" />
+                  <img src={item.avatar} alt={item.name} className="h-10 w-10 rounded-full object-cover ring-2 ring-white/20 sm:h-12 sm:w-12" />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-extrabold text-white">{item.name}</p>
                     <p className="flex items-center gap-1 truncate text-xs text-white/60"><MapPin size={12} /> {item.location}</p>
                   </div>
                 </div>
-                <div className="mt-3 flex items-center gap-1">
+                <div className="mt-3 flex flex-wrap items-center gap-1">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} size={14} className={i < item.rating ? 'fill-yellow-400 text-yellow-400' : 'text-white/20'} />
                   ))}
-                  <span className="ml-2 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-bold text-white/70">{item.service}</span>
+                  <span className="ml-1 mt-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-bold text-white/70 sm:ml-2 sm:mt-0">{item.service}</span>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-white/75">&ldquo;{item.comment}&rdquo;</p>
                 <div className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-brand-300">
@@ -371,15 +378,17 @@ function Home() {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-ink-950 px-5 py-14 text-white sm:px-8 lg:px-10">
+      <section className="relative overflow-hidden bg-navy-900 px-5 py-14 text-white sm:px-8 lg:px-10">
         <div className="pointer-events-none absolute inset-0 bg-mesh-pop opacity-30" />
+        <FlightArc className="pointer-events-none absolute -right-8 bottom-6 h-40 w-80 -scale-x-100 text-brand-300/20" />
+        <Cloud className="pointer-events-none absolute left-6 top-6 h-20 w-44 text-white/10 animate-float [animation-delay:1.2s]" />
         <div className="container-x relative flex max-w-7xl flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-300">Ready when you are</p>
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-brand-300"><PlaneMark className="h-4 w-4" /> Ready when you are</p>
             <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Your next story starts here.</h2>
             <p className="mt-3 max-w-lg text-sm leading-6 text-white/65">Tell us where you&apos;d like to go. We&apos;ll help you find the best way to get there.</p>
           </div>
-          <button onClick={openEnquiry} className="flex shrink-0 items-center gap-2 rounded-xl bg-pop-red px-6 py-3.5 text-sm font-bold text-white shadow-brand-soft transition hover:bg-red-600 hover:shadow-glow">Make an enquiry <Send size={16} /></button>
+          <button onClick={openEnquiry} className="flex shrink-0 items-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 text-sm font-bold text-white shadow-brand-soft transition hover:bg-red-600 hover:shadow-glow">Make an enquiry <Send size={16} /></button>
         </div>
       </section>
     </>

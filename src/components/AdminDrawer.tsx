@@ -222,8 +222,8 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
                 <ul className="mt-3 space-y-2">
                   {destinations.map((d) => (
                     <li key={d.id} className="flex items-center justify-between rounded-xl border border-ink-100 px-3 py-2 text-sm">
-                      <span className="flex items-center gap-2"><MapPin size={14} className="text-brand-500" /> {d.name}</span>
-                      <button onClick={() => handleDeleteLookup('tour_destinations', d.id)} className="text-ink-400 transition hover:text-pop-red">
+                      <span className="flex items-center gap-2"><MapPin size={14} className="text-brand-600" /> {d.name}</span>
+                      <button onClick={() => handleDeleteLookup('tour_destinations', d.id)} className="text-ink-500 transition hover:text-pop-red">
                         <Trash2 size={14} />
                       </button>
                     </li>
@@ -247,8 +247,8 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
                 <ul className="mt-3 space-y-2">
                   {tourTypes.map((t) => (
                     <li key={t.id} className="flex items-center justify-between rounded-xl border border-ink-100 px-3 py-2 text-sm">
-                      <span className="flex items-center gap-2"><Luggage size={14} className="text-brand-500" /> {t.name}</span>
-                      <button onClick={() => handleDeleteLookup('tour_types', t.id)} className="text-ink-400 transition hover:text-pop-red">
+                      <span className="flex items-center gap-2"><Luggage size={14} className="text-brand-600" /> {t.name}</span>
+                      <button onClick={() => handleDeleteLookup('tour_types', t.id)} className="text-ink-500 transition hover:text-pop-red">
                         <Trash2 size={14} />
                       </button>
                     </li>
@@ -272,8 +272,8 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
                 <ul className="mt-3 space-y-2">
                   {countries.map((c) => (
                     <li key={c.id} className="flex items-center justify-between rounded-xl border border-ink-100 px-3 py-2 text-sm">
-                      <span className="flex items-center gap-2"><Globe size={14} className="text-brand-500" /> {c.name}</span>
-                      <button onClick={() => handleDeleteLookup('visa_countries', c.id)} className="text-ink-400 transition hover:text-pop-red">
+                      <span className="flex items-center gap-2"><Globe size={14} className="text-brand-600" /> {c.name}</span>
+                      <button onClick={() => handleDeleteLookup('visa_countries', c.id)} className="text-ink-500 transition hover:text-pop-red">
                         <Trash2 size={14} />
                       </button>
                     </li>
@@ -297,8 +297,8 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
                 <ul className="mt-3 space-y-2">
                   {visaTypes.map((v) => (
                     <li key={v.id} className="flex items-center justify-between rounded-xl border border-ink-100 px-3 py-2 text-sm">
-                      <span className="flex items-center gap-2"><FileText size={14} className="text-brand-500" /> {v.name}</span>
-                      <button onClick={() => handleDeleteLookup('visa_types', v.id)} className="text-ink-400 transition hover:text-pop-red">
+                      <span className="flex items-center gap-2"><FileText size={14} className="text-brand-600" /> {v.name}</span>
+                      <button onClick={() => handleDeleteLookup('visa_types', v.id)} className="text-ink-500 transition hover:text-pop-red">
                         <Trash2 size={14} />
                       </button>
                     </li>
@@ -312,45 +312,45 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
             <div className="space-y-6">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Title</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Title</label>
                   <input value={tourTitle} onChange={(e) => setTourTitle(e.target.value)} placeholder="Tour title" className="field-style w-full" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Destination</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Destination</label>
                   <select value={tourDestination} onChange={(e) => setTourDestination(e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select destination</option>
                     {destinations.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Tour Type</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Tour Type</label>
                   <select value={tourType} onChange={(e) => setTourType(e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select type</option>
                     {tourTypes.map((t) => <option key={t.id} value={t.name}>{t.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Duration</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Duration</label>
                   <input value={tourDuration} onChange={(e) => setTourDuration(e.target.value)} placeholder="e.g. 5 Days / 4 Nights" className="field-style w-full" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Price</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Price</label>
                   <input type="number" value={tourPrice} onChange={(e) => setTourPrice(e.target.value)} placeholder="Price" className="field-style w-full" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Original Price</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Original Price</label>
                   <input type="number" value={tourOriginalPrice} onChange={(e) => setTourOriginalPrice(e.target.value)} placeholder="Original price (optional)" className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Image URL</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Image URL</label>
                   <input value={tourImageUrl} onChange={(e) => setTourImageUrl(e.target.value)} placeholder="https://..." className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Includes (comma separated)</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Includes (comma separated)</label>
                   <input value={tourIncludes} onChange={(e) => setTourIncludes(e.target.value)} placeholder="Flight, Hotel, Meals" className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Excludes (comma separated)</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Excludes (comma separated)</label>
                   <input value={tourExcludes} onChange={(e) => setTourExcludes(e.target.value)} placeholder="Visa, Travel Insurance" className="field-style w-full" />
                 </div>
               </div>
@@ -365,9 +365,9 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
                     <div>
                       <p className="text-sm font-bold text-ink-900">{t.title}</p>
                       <p className="text-xs text-ink-500">{t.destination} · {t.tour_type} · {t.duration}</p>
-                      <p className="text-xs font-semibold text-brand-600">${t.price} {t.original_price ? <span className="text-ink-400 line-through">${t.original_price}</span> : ''}</p>
+                      <p className="text-xs font-semibold text-brand-600">${t.price} {t.original_price ? <span className="text-ink-500 line-through">${t.original_price}</span> : ''}</p>
                     </div>
-                    <button onClick={() => handleDeleteTour(t.id)} className="text-ink-400 transition hover:text-pop-red">
+                    <button onClick={() => handleDeleteTour(t.id)} className="text-ink-500 transition hover:text-pop-red">
                       <Trash2 size={14} />
                     </button>
                   </div>
@@ -380,25 +380,25 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
             <div className="space-y-6">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Country</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Country</label>
                   <select value={visaCountry} onChange={(e) => setVisaCountry(e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select country</option>
                     {countries.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Visa Type</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Visa Type</label>
                   <select value={visaType} onChange={(e) => setVisaType(e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select type</option>
                     {visaTypes.map((v) => <option key={v.id} value={v.name}>{v.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Fee</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Fee</label>
                   <input type="number" value={visaFee} onChange={(e) => setVisaFee(e.target.value)} placeholder="Fee amount" className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Requirements (one per line, format: Title | Detail)</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Requirements (one per line, format: Title | Detail)</label>
                   <textarea
                     value={visaReqsList}
                     onChange={(e) => setVisaReqsList(e.target.value)}
@@ -408,7 +408,7 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-400">Note</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Note</label>
                   <textarea
                     value={visaNote}
                     onChange={(e) => setVisaNote(e.target.value)}
@@ -431,7 +431,7 @@ function AdminDrawer({ open, onClose }: AdminDrawerProps) {
                         <p className="text-sm font-bold text-ink-900">{v.country} - {v.visa_type}</p>
                         <p className="text-xs font-semibold text-brand-600">Fee: ${v.fee}</p>
                       </div>
-                      <button onClick={() => handleDeleteVisa(v.id)} className="text-ink-400 transition hover:text-pop-red">
+                      <button onClick={() => handleDeleteVisa(v.id)} className="text-ink-500 transition hover:text-pop-red">
                         <Trash2 size={14} />
                       </button>
                     </div>

@@ -57,9 +57,9 @@ function AdminTourApplications() {
             </thead>
             <tbody className="divide-y divide-ink-100">
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-400">Loading...</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-500">Loading...</td></tr>
               ) : applications.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-400">No tour applications found.</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-500">No tour applications found.</td></tr>
               ) : applications.map((app) => (
                 <tr key={app.id} className="transition hover:bg-ink-50/50">
                   <td className="px-6 py-4">
@@ -71,7 +71,7 @@ function AdminTourApplications() {
                   <td className="px-6 py-4 text-ink-600">{app.tour_title}</td>
                   <td className="px-6 py-4 text-ink-600">{app.mobile_number}</td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${app.status === 'new' ? 'bg-brand-100 text-brand-700' : 'bg-ink-100 text-ink-600'}`}>
+                    <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${app.status === 'new' ? 'bg-brand-50 text-brand-600' : 'bg-ink-100 text-ink-600'}`}>
                       {app.status}
                     </span>
                   </td>
@@ -80,7 +80,7 @@ function AdminTourApplications() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button onClick={() => handleDelete(app.id)} className="rounded-lg p-2 text-ink-400 transition hover:bg-pop-red/10 hover:text-pop-red">
+                      <button onClick={() => handleDelete(app.id)} className="rounded-lg p-2 text-ink-500 transition hover:bg-brand-500/10 hover:text-brand-600">
                         <Trash2 size={14} />
                       </button>
                     </div>

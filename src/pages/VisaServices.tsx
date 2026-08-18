@@ -133,7 +133,7 @@ function VisaServices() {
   return (
     <>
       {/* Page header */}
-      <section className="relative isolate overflow-hidden bg-ink-950 py-16 sm:py-20">
+      <section className="relative isolate overflow-hidden bg-navy-900 py-16 sm:py-20">
         <div className="absolute inset-0 -z-10 bg-cover bg-center opacity-50" style={{ backgroundImage: `linear-gradient(110deg, rgba(2,6,23,.92), rgba(30,58,138,.5)), url(https://images.pexels.com/photos/2098953/pexels-photo-2098953.jpeg?auto=compress&cs=tinysrgb&w=1800)` }} />
         <div className="absolute inset-0 -z-10 bg-mesh-pop opacity-60" />
         <div className="container-x max-w-7xl">
@@ -155,7 +155,7 @@ function VisaServices() {
               placeholder="Search countries..."
               className="w-full border-0 bg-transparent p-0 text-sm font-medium text-ink-900 outline-none placeholder:text-ink-300"
             />
-            {search && <button onClick={() => setSearch('')} className="text-ink-400 hover:text-ink-900"><X size={16} /></button>}
+            {search && <button onClick={() => setSearch('')} className="text-ink-500 hover:text-ink-900"><X size={16} /></button>}
           </div>
           <div className="flex flex-wrap gap-2">
             <button
@@ -196,13 +196,13 @@ function VisaServices() {
             {filtered.map((visa) => {
               const isOpen = expanded === visa.country;
               return (
-                <div key={visa.country} className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm transition-all duration-300 hover:shadow-card">
+                <div key={visa.country} className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-soft transition-all duration-300 hover:shadow-soft">
                   <button
                     onClick={() => setExpanded(isOpen ? null : visa.country)}
                     className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-7"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-sm font-bold text-brand-700">{visa.flag}</div>
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-sm font-bold text-brand-600">{visa.flag}</div>
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="font-display text-lg font-extrabold text-ink-900">{visa.country}</h3>
@@ -211,17 +211,17 @@ function VisaServices() {
                         <div className="mt-1.5 flex flex-wrap gap-2">
                           {visa.types.map((type) => {
                             const Icon = visaTypeIcons[type];
-                            return <span key={type} className="flex items-center gap-1 rounded-md bg-brand-50 px-2 py-1 text-[10px] font-bold text-brand-700"><Icon size={11} /> {type}</span>;
+                            return <span key={type} className="flex items-center gap-1 rounded-md bg-brand-50 px-2 py-1 text-[10px] font-bold text-brand-600"><Icon size={11} /> {type}</span>;
                           })}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="hidden text-right sm:block">
-                        <p className="text-xs text-ink-400">Processing</p>
+                        <p className="text-xs text-ink-500">Processing</p>
                         <p className="text-sm font-bold text-ink-900">{visa.processing}</p>
                       </div>
-                      <ChevronDown size={22} className={`shrink-0 text-ink-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={22} className={`shrink-0 text-ink-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
                     </div>
                   </button>
 
@@ -229,24 +229,24 @@ function VisaServices() {
                     <div className="border-t border-ink-100 bg-ink-50/50 px-5 py-6 sm:px-7 animate-fade-up">
                       <div className="grid gap-6 lg:grid-cols-[1fr_1.5fr]">
                         <div className="space-y-4">
-                          <div className="rounded-2xl bg-white p-4 shadow-sm border border-ink-100">
-                            <div className="flex items-center gap-2 text-ink-400"><Clock size={15} /> <span className="text-xs font-bold uppercase tracking-wider">Processing Time</span></div>
+                          <div className="rounded-2xl bg-white p-4 shadow-soft border border-ink-100">
+                            <div className="flex items-center gap-2 text-ink-500"><Clock size={15} /> <span className="text-xs font-bold uppercase tracking-wider">Processing Time</span></div>
                             <p className="mt-1 text-sm font-bold text-ink-900">{visa.processing}</p>
                           </div>
-                          <div className="rounded-2xl bg-white p-4 shadow-sm border border-ink-100">
-                            <div className="flex items-center gap-2 text-ink-400"><FileText size={15} /> <span className="text-xs font-bold uppercase tracking-wider">Visa Fee</span></div>
+                          <div className="rounded-2xl bg-white p-4 shadow-soft border border-ink-100">
+                            <div className="flex items-center gap-2 text-ink-500"><FileText size={15} /> <span className="text-xs font-bold uppercase tracking-wider">Visa Fee</span></div>
                             <p className="mt-1 text-sm font-bold text-ink-900">{visa.fee}</p>
                           </div>
-                          <div className="rounded-2xl bg-white p-4 shadow-sm border border-ink-100">
-                            <div className="flex items-center gap-2 text-ink-400"><Plane size={15} /> <span className="text-xs font-bold uppercase tracking-wider">Duration of Stay</span></div>
+                          <div className="rounded-2xl bg-white p-4 shadow-soft border border-ink-100">
+                            <div className="flex items-center gap-2 text-ink-500"><Plane size={15} /> <span className="text-xs font-bold uppercase tracking-wider">Duration of Stay</span></div>
                             <p className="mt-1 text-sm font-bold text-ink-900">{visa.duration}</p>
                           </div>
                         </div>
                         <div>
-                          <p className="mb-3 text-xs font-bold uppercase tracking-wider text-ink-400">Required Documents</p>
+                          <p className="mb-3 text-xs font-bold uppercase tracking-wider text-ink-500">Required Documents</p>
                           <div className="grid gap-2 sm:grid-cols-2">
                             {visa.requirements.map((req) => (
-                              <div key={req} className="flex items-start gap-2.5 rounded-xl bg-white p-3 text-sm text-ink-700 shadow-sm border border-ink-100">
+                              <div key={req} className="flex items-start gap-2.5 rounded-xl bg-white p-3 text-sm text-ink-700 shadow-soft border border-ink-100">
                                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600"><Check size={12} strokeWidth={3} /></span>
                                 {req}
                               </div>

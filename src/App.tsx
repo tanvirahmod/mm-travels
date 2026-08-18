@@ -8,7 +8,7 @@ import Destinations from '@/pages/Destinations';
 import Contact from '@/pages/Contact';
 import AdminLayout from '@/components/admin/AdminLayout';
 import AdminDashboard from '@/pages/admin/AdminDashboard';
-import AdminHero from '@/pages/admin/AdminHero';
+import AdminHeroSlider from '@/pages/admin/AdminHeroSlider';
 import AdminCards from '@/pages/admin/AdminCards';
 import AdminDestinations from '@/pages/admin/AdminDestinations';
 import AdminTours from '@/pages/admin/AdminTours';
@@ -16,6 +16,7 @@ import AdminVisas from '@/pages/admin/AdminVisas';
 import AdminAgents from '@/pages/admin/AdminAgents';
 import AdminVisaApplications from '@/pages/admin/AdminVisaApplications';
 import AdminTourApplications from '@/pages/admin/AdminTourApplications';
+import AdminAnnouncements from '@/pages/admin/AdminAnnouncements';
 import EnquiryModal from '@/components/EnquiryModal';
 import AdminDrawer from '@/components/AdminDrawer';
 import Tours from '@/pages/Tours';
@@ -40,6 +41,7 @@ const pageIdToPath: Record<PageId, string> = {
   'admin-agents': '/admin/agents',
   'admin-visa-applications': '/admin/visa-applications',
   'admin-tour-applications': '/admin/tour-applications',
+  'admin-announcements': '/admin/announcements',
   tours: '/tours',
   'tour-details': '/tours',
 };
@@ -55,6 +57,7 @@ const pathToPageId = (path: string): PageId => {
   if (path === '/admin/agents') return 'admin-agents';
   if (path === '/admin/visa-applications') return 'admin-visa-applications';
   if (path === '/admin/tour-applications') return 'admin-tour-applications';
+  if (path === '/admin/announcements') return 'admin-announcements';
   if (path === '/admin') return 'admin';
   if (path === '/packages') return 'packages';
   if (path === '/destinations') return 'destinations';
@@ -97,7 +100,7 @@ function AppInner() {
           <Route path="/branches" element={<Contact />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
-            <Route path="hero" element={<AdminHero />} />
+              <Route path="hero-slider" element={<AdminHeroSlider />} />
             <Route path="cards" element={<AdminCards />} />
             <Route path="destinations" element={<AdminDestinations />} />
             <Route path="tours" element={<AdminTours />} />
@@ -105,6 +108,7 @@ function AppInner() {
               <Route path="agents" element={<AdminAgents />} />
               <Route path="visa-applications" element={<AdminVisaApplications />} />
               <Route path="tour-applications" element={<AdminTourApplications />} />
+              <Route path="announcements" element={<AdminAnnouncements />} />
             </Route>
         </Routes>
       </Layout>
