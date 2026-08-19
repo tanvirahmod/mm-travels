@@ -11,6 +11,7 @@ function Tours() {
 
   const destinationFilter = searchParams.get('destination') || '';
   const tourTypeFilter = searchParams.get('tour_type') || '';
+  const regionFilter = searchParams.get('region') || '';
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -23,6 +24,9 @@ function Tours() {
       if (tourTypeFilter) {
         query = query.eq('tour_type', tourTypeFilter);
       }
+      if (regionFilter && regionFilter !== 'all') {
+        query = query.ilike('region', regionFilter);
+      }
 
       const { data } = await query;
       if (data) setTours(data as Tour[]);
@@ -30,7 +34,7 @@ function Tours() {
     };
     fetchTours();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [destinationFilter, tourTypeFilter]);
+  }, [destinationFilter, tourTypeFilter, regionFilter]);
 
   return (
     <>
@@ -48,9 +52,10 @@ function Tours() {
           </div>
           <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Search: Tour</h1>
           <p className="lede mt-4 max-w-xl text-white/70">
+            {regionFilter && regionFilter !== 'all' && <span>Region: <strong className="capitalize">{regionFilter}</strong> &nbsp;</span>}
             {destinationFilter && <span>Destination: <strong>{destinationFilter}</strong> &nbsp;</span>}
             {tourTypeFilter && <span>Type: <strong>{tourTypeFilter}</strong></span>}
-            {!destinationFilter && !tourTypeFilter && 'Discover our curated collection of tour packages designed for unforgettable experiences.'}
+            {!regionFilter && !destinationFilter && !tourTypeFilter && 'Discover our curated collection of tour packages designed for unforgettable experiences.'}
           </p>
         </div>
       </section>

@@ -60,7 +60,7 @@ function AnnouncementBar() {
         >
           {announcement.badge}
         </span>
-        <span className="text-sm text-white">{title}</span>
+        <span className="text-sm font-bold text-white">{title}</span>
       </span>
     );
 
@@ -89,7 +89,7 @@ function AnnouncementBar() {
   };
 
   return (
-    <div className="relative w-full overflow-hidden bg-brand-500 text-white shadow-md">
+    <div className="relative w-full overflow-hidden bg-[#20ba59] text-white shadow-md">
       <div className="flex items-center">
         <div className="shrink-0 bg-white/10 px-5 py-3 text-xs font-bold uppercase tracking-wider border-r border-white/20 flex items-center gap-2">
           <Bell size={14} /> Special Offers

@@ -15,6 +15,7 @@ import {
   UserPlus,
   ClipboardList,
   Megaphone,
+  ShieldCheck,
 } from 'lucide-react';
 
 import { useApp } from '@/components/AppContext';
@@ -50,8 +51,9 @@ const navGroups: NavGroup[] = [
       { to: '/admin/tours', icon: Briefcase, label: 'Tours' },
       { to: '/admin/visas', icon: FileText, label: 'Visas' },
       { to: '/admin/visa-applications', icon: UserPlus, label: 'Visa Applications' },
-      { to: '/admin/tour-applications', icon: ClipboardList, label: 'Tour Applications' },
-      { to: '/admin/destinations', icon: MapPin, label: 'Destinations' },
+       { to: '/admin/tour-applications', icon: ClipboardList, label: 'Tour Applications' },
+       { to: '/admin/attestation-orders', icon: ShieldCheck, label: 'Attestation Orders' },
+       { to: '/admin/destinations', icon: MapPin, label: 'Destinations' },
     ],
   },
   {

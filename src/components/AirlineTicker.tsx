@@ -55,7 +55,7 @@ export default function AirlineTicker() {
           {loop.map((logo, index) => (
             <div
               key={`${logo.name}-${index}`}
-              className="group flex h-16 w-44 shrink-0 items-center justify-center rounded-xl border border-transparent px-6 py-4 transition-colors duration-300 hover:border-[#1E63FF]/30"
+              className="group flex h-16 w-44 shrink-0 items-center justify-center rounded-xl border border-transparent px-6 py-4 transition-colors duration-300 hover:border-[#25D366]/30"
             >
               <img
                 src={logo.url}

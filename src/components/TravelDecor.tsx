@@ -110,7 +110,7 @@ export function TravelTexture({ className = '' }: { className?: string }) {
       <svg className="absolute inset-0 h-full w-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="dotGrid" width="26" height="26" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.4" fill="#1E63FF" />
+            <circle cx="2" cy="2" r="1.4" fill="#25D366" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#dotGrid)" />

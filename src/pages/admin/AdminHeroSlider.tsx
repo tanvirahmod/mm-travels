@@ -9,7 +9,7 @@ import {
   ChevronUp,
   ChevronDown,
 } from 'lucide-react';
-import { supabase, type HeroSlide } from '@/lib/supabase';
+import { supabase, type HeroSlide, type SiteSettings } from '@/lib/supabase';
 
 type SlideForm = {
   badge_text: string;
@@ -18,10 +18,12 @@ type SlideForm = {
   subtitle: string;
   description: string;
   background_image_url: string;
+  mobile_background_image_url: string;
   primary_btn_text: string;
   primary_btn_url: string;
   secondary_btn_text: string;
   secondary_btn_url: string;
+  link: string;
   slide_order: number;
   is_active: boolean;
 };
@@ -30,6 +32,11 @@ function AdminHeroSlider() {
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [, setSettings] = useState<SiteSettings | null>(null);
+  const [searchEnabled, setSearchEnabled] = useState(true);
+  const [searchSlide, setSearchSlide] = useState(1);
+  const [savingSearch, setSavingSearch] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingSlide, setEditingSlide] = useState<HeroSlide | null>(null);
   const navigate = useNavigate();
@@ -39,12 +46,14 @@ function AdminHeroSlider() {
     headline: '',
     headline_highlight: '',
     subtitle: '',
-    description: '',
-    background_image_url: '',
-    primary_btn_text: '',
+      description: '',
+      background_image_url: '',
+      mobile_background_image_url: '',
+      primary_btn_text: '',
     primary_btn_url: '',
     secondary_btn_text: '',
     secondary_btn_url: '',
+    link: '',
     slide_order: 0,
     is_active: true,
   });
@@ -53,11 +62,17 @@ function AdminHeroSlider() {
 
   const loadData = async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from('hero_slides')
-      .select('*')
-      .order('slide_order', { ascending: true });
+    const [{ data }, settingsRes] = await Promise.all([
+      supabase.from('hero_slides').select('*').order('slide_order', { ascending: true }),
+      supabase.from('site_settings').select('*').maybeSingle(),
+    ]);
     if (data) setSlides(data as HeroSlide[]);
+    if (settingsRes.data) {
+      const s = settingsRes.data as SiteSettings;
+      setSettings(s);
+      setSearchEnabled(s.search_enabled ?? true);
+      setSearchSlide(s.search_slide ?? 1);
+    }
     setLoading(false);
   };
 
@@ -70,6 +85,7 @@ function AdminHeroSlider() {
   const openAdd = () => {
     setEditingSlide(null);
     setForm({ ...emptySlide(), slide_order: slides.length + 1 });
+    setError(null);
     setModalOpen(true);
   };
 
@@ -82,18 +98,27 @@ function AdminHeroSlider() {
       subtitle: slide.subtitle,
       description: slide.description,
       background_image_url: slide.background_image_url,
+      mobile_background_image_url: slide.mobile_background_image_url || '',
       primary_btn_text: slide.primary_btn_text || '',
       primary_btn_url: slide.primary_btn_url || '',
       secondary_btn_text: slide.secondary_btn_text || '',
       secondary_btn_url: slide.secondary_btn_url || '',
+      link: slide.link || '',
       slide_order: slide.slide_order,
       is_active: slide.is_active,
     });
+    setError(null);
     setModalOpen(true);
   };
 
   const handleSave = async () => {
-    if (!form.headline.trim()) return;
+    const titleMissing = !form.headline.trim();
+    const imageMissing = !form.background_image_url.trim();
+    if (titleMissing && imageMissing) {
+      setError('Add a headline (title), or provide a background image.');
+      return;
+    }
+    setError(null);
     setSaving(true);
     const payload = {
       badge_text: form.badge_text.trim(),
@@ -102,10 +127,12 @@ function AdminHeroSlider() {
       subtitle: form.subtitle.trim(),
       description: form.description.trim(),
       background_image_url: form.background_image_url.trim(),
+      mobile_background_image_url: form.mobile_background_image_url.trim() || null,
       primary_btn_text: form.primary_btn_text.trim() || null,
       primary_btn_url: form.primary_btn_url.trim() || null,
       secondary_btn_text: form.secondary_btn_text.trim() || null,
       secondary_btn_url: form.secondary_btn_url.trim() || null,
+      link: form.link.trim() || null,
       slide_order: form.slide_order,
       is_active: form.is_active,
       updated_at: new Date().toISOString(),
@@ -118,6 +145,14 @@ function AdminHeroSlider() {
     setSaving(false);
     setModalOpen(false);
     loadData();
+  };
+
+  const saveSearchSettings = async () => {
+    setSavingSearch(true);
+    await supabase
+      .from('site_settings')
+      .upsert({ id: '00000000-0000-0000-0000-000000000001', search_enabled: searchEnabled, search_slide: searchSlide });
+    setSavingSearch(false);
   };
 
   const handleDelete = async (id: string) => {
@@ -173,6 +208,43 @@ function AdminHeroSlider() {
         </div>
       </div>
 
+      <div className="rounded-2xl border border-ink-100 bg-white p-5 shadow-soft">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="font-display text-lg font-extrabold text-ink-900">Hero Search Bar</h2>
+            <p className="mt-1 text-sm text-ink-500">Control the tour / flight / hotel / visa search widget shown on the hero slider.</p>
+          </div>
+          <div className="flex flex-wrap items-end gap-4">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="search-enabled"
+                checked={searchEnabled}
+                onChange={(e) => setSearchEnabled(e.target.checked)}
+                className="h-4 w-4 rounded border-ink-300 text-brand-500 focus:ring-brand-400"
+              />
+              <span className="text-sm font-semibold text-ink-700">Enable search bar</span>
+            </label>
+            <div>
+              <label htmlFor="search-slide" className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Show on slide</label>
+              <select
+                id="search-slide"
+                value={searchSlide}
+                onChange={(e) => setSearchSlide(parseInt(e.target.value) || 1)}
+                className="field-style w-24"
+              >
+                {Array.from({ length: Math.max(slides.length, 1) }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>{i + 1}</option>
+                ))}
+              </select>
+            </div>
+            <button onClick={saveSearchSettings} disabled={savingSearch} className="btn-primary">
+              {savingSearch ? 'Saving…' : 'Save'}
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-ink-100 bg-white shadow-soft">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
@@ -203,6 +275,11 @@ function AdminHeroSlider() {
                       {slide.subtitle && (
                         <p className="mt-0.5 max-w-xs truncate text-xs text-ink-500">{slide.subtitle}</p>
                       )}
+                      {slide.link && (
+                        <p className="mt-0.5 flex max-w-xs items-center gap-1 truncate text-[11px] font-semibold text-brand-600">
+                          <span className="text-ink-400">Link:</span> {slide.link}
+                        </p>
+                      )}
                     </td>
                     <td className="px-4 py-4">
                       {slide.background_image_url ? (
@@ -213,6 +290,9 @@ function AdminHeroSlider() {
                         />
                       ) : (
                         <span className="text-xs text-ink-400">No image</span>
+                      )}
+                      {slide.mobile_background_image_url && (
+                        <span className="mt-1 inline-block rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-bold text-brand-600">Mobile bg set</span>
                       )}
                     </td>
                     <td className="px-4 py-4">
@@ -275,6 +355,11 @@ function AdminHeroSlider() {
               </button>
             </div>
             <div className="max-h-[calc(100vh-80px)] overflow-y-auto p-6">
+              {error && (
+                <div className="mb-5 rounded-xl border border-pop-red/30 bg-pop-red/10 px-4 py-3 text-sm font-semibold text-pop-red">
+                  {error}
+                </div>
+              )}
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Badge Text</label>
@@ -285,8 +370,13 @@ function AdminHeroSlider() {
                   <input value={form.headline_highlight} onChange={(e) => updateField('headline_highlight', e.target.value)} placeholder="Word(s) highlighted in Electric Blue" className="field-style w-full" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Headline</label>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">
+                    Headline (Title) <span className="text-pop-red">*</span>
+                  </label>
                   <input value={form.headline} onChange={(e) => updateField('headline', e.target.value)} placeholder="Main heading text" className="field-style w-full" />
+                  {!form.headline.trim() && (
+                    <p className="mt-1 text-[11px] font-semibold text-pop-red">Title is required.</p>
+                  )}
                 </div>
                 <div className="sm:col-span-2">
                   <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Subtitle</label>
@@ -297,8 +387,20 @@ function AdminHeroSlider() {
                   <textarea rows={3} value={form.description} onChange={(e) => updateField('description', e.target.value)} placeholder="Paragraph text below the subtitle" className="field-style w-full resize-none" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Background Image URL</label>
-                  <input value={form.background_image_url} onChange={(e) => updateField('background_image_url', e.target.value)} placeholder="https://..." className="field-style w-full" />
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">
+                    Background Image URL {!form.headline.trim() && <span className="text-pop-red">*</span>}
+                  </label>
+                  <input value={form.background_image_url} onChange={(e) => updateField('background_image_url', e.target.value)} placeholder="Paste image URL — recommended 1920 × 720 px (desktop)" className="field-style w-full" />
+                  {!form.headline.trim() ? (
+                    <p className="mt-1 text-[11px] font-semibold text-pop-red">Required when no title is provided.</p>
+                  ) : (
+                    <p className="mt-1 text-[11px] text-ink-400">Recommended size: 1920 × 720 px (desktop / large screens).</p>
+                  )}
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Mobile Background Image URL (optional)</label>
+                  <input value={form.mobile_background_image_url} onChange={(e) => updateField('mobile_background_image_url', e.target.value)} placeholder="Paste image URL — recommended 768 × 1024 px (mobile, optional)" className="field-style w-full" />
+                  <p className="mt-1 text-[11px] text-ink-400">Recommended size: 768 × 1024 px (mobile / small screens). If empty, the desktop image above is used.</p>
                 </div>
 
                 <div>
@@ -317,6 +419,11 @@ function AdminHeroSlider() {
                   <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Secondary Button URL</label>
                   <input value={form.secondary_btn_url} onChange={(e) => updateField('secondary_btn_url', e.target.value)} placeholder="/visa" className="field-style w-full" />
                 </div>
+                <div className="sm:col-span-2">
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Slide Link (optional)</label>
+                  <input value={form.link} onChange={(e) => updateField('link', e.target.value)} placeholder="/tours or https://example.com" className="field-style w-full" />
+                  <p className="mt-1 text-[11px] text-ink-400">When set, the entire slide becomes clickable and navigates here. Leave empty to keep the slide non-clickable.</p>
+                </div>
                 <div>
                   <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Slide Order</label>
                   <input type="number" value={form.slide_order} onChange={(e) => updateField('slide_order', parseInt(e.target.value) || 0)} className="field-style w-full" />
@@ -329,8 +436,14 @@ function AdminHeroSlider() {
 
               {form.background_image_url && (
                 <div className="mt-5">
-                  <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-ink-500">Image Preview</p>
+                  <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-ink-500">Desktop Image Preview</p>
                   <img src={form.background_image_url} alt="Preview" className="h-32 w-full rounded-xl border border-ink-100 object-cover" />
+                </div>
+              )}
+              {form.mobile_background_image_url && (
+                <div className="mt-5">
+                  <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-ink-500">Mobile Image Preview</p>
+                  <img src={form.mobile_background_image_url} alt="Mobile preview" className="h-40 w-full rounded-xl border border-ink-100 object-cover" />
                 </div>
               )}
 

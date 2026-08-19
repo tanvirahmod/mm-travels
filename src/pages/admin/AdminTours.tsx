@@ -32,6 +32,7 @@ function AdminTours() {
     excludes: [],
     image_url: '',
     start_location: '',
+    region: '',
   });
 
   const [form, setForm] = useState(emptyTour());
@@ -74,6 +75,7 @@ function AdminTours() {
       excludes: [...tour.excludes],
       image_url: tour.image_url,
       start_location: (tour as unknown as Record<string, string>).start_location || '',
+      region: tour.region || '',
     });
     setModalOpen(true);
   };
@@ -168,6 +170,7 @@ function AdminTours() {
                 <th className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink-500">Title</th>
                 <th className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink-500">Destination</th>
                 <th className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink-500">Type</th>
+                <th className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink-500">Region</th>
                 <th className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink-500">Duration</th>
                 <th className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink-500">Price</th>
                 <th className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink-500">Actions</th>
@@ -183,6 +186,13 @@ function AdminTours() {
                   <td className="px-6 py-4 font-semibold text-ink-900">{tour.title}</td>
                   <td className="px-6 py-4 text-ink-600">{tour.destination}</td>
                   <td className="px-6 py-4 text-ink-600">{tour.tour_type}</td>
+                  <td className="px-6 py-4">
+                    {tour.region ? (
+                      <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${tour.region === 'Domestic' ? 'bg-brand-50 text-brand-600' : 'bg-pop-orange/10 text-pop-orange'}`}>{tour.region}</span>
+                    ) : (
+                      <span className="text-xs text-ink-400">—</span>
+                    )}
+                  </td>
                   <td className="px-6 py-4 text-ink-600">{tour.duration}</td>
                   <td className="px-6 py-4 font-semibold text-brand-600">৳{tour.price.toLocaleString()}</td>
                   <td className="px-6 py-4">
@@ -231,6 +241,14 @@ function AdminTours() {
                   <select value={form.tour_type} onChange={(e) => updateField('tour_type', e.target.value)} className="field-style w-full cursor-pointer">
                     <option value="">Select type</option>
                     {tourTypes.map((t) => <option key={t.id} value={t.name}>{t.name}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-ink-500">Region</label>
+                  <select value={form.region} onChange={(e) => updateField('region', e.target.value)} className="field-style w-full cursor-pointer">
+                    <option value="">Select region</option>
+                    <option value="Domestic">Domestic</option>
+                    <option value="International">International</option>
                   </select>
                 </div>
                 <div>

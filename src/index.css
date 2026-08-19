@@ -5,9 +5,9 @@
 @tailwind utilities;
 
 :root {
-  --color-brand-500: #1E63FF;
-  --color-brand-600: #1551D8;
-  --color-brand-400: #38BDF8;
+  --color-brand-500: #25D366;
+  --color-brand-600: #1FAE57;
+  --color-brand-400: #4ADE80;
   --color-navy-900: #090D16;
   --color-navy-800: #0F172A;
   --color-cream-50: #F8FAFC;
@@ -50,7 +50,7 @@ a {
 }
 
 ::selection {
-  background: #1E63FF;
+  background: #25D366;
   color: #ffffff;
 }
 

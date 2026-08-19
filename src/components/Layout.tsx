@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Instagram,
   Mail,
@@ -6,32 +7,69 @@ import {
   Menu,
   MessageCircle,
   Phone,
-  PlaneTakeoff,
   Navigation,
   ChevronRight,
+  ChevronDown,
   ShieldCheck,
   X,
   Youtube,
+  GraduationCap,
+  Heart,
+  Baby,
+  Building2,
+  Landmark,
+  type LucideIcon,
 } from 'lucide-react';
 import { useApp, type PageId } from '@/components/AppContext';
 import AnnouncementBar from '@/components/AnnouncementBar';
 import { TravelTexture } from '@/components/TravelDecor';
+import { attestationServices } from '@/data/documentServices';
 
-const navItems: { label: string; page: PageId }[] = [
+type NavDropdownItem = {
+  label: string;
+  params?: string;
+  to?: string;
+  icon?: LucideIcon;
+  caption?: string;
+};
+
+const navItems: { label: string; page: PageId; dropdown?: NavDropdownItem[] }[] = [
   { label: 'Home', page: 'home' },
-  { label: 'About Us', page: 'about-us' },
   { label: 'Services', page: 'services' },
-  { label: 'Packages', page: 'packages' },
+  {
+    label: 'Tours',
+    page: 'tours',
+    dropdown: [
+      { label: 'Domestic', params: '?region=domestic' },
+      { label: 'International', params: '?region=international' },
+      { label: 'All', params: '' },
+    ],
+  },
+  { label: 'Visas', page: 'visa' },
   { label: 'Destinations', page: 'destinations' },
-  { label: 'Tour Services', page: 'tours' },
-  { label: 'Visa Services', page: 'visa' },
+  { label: 'Gallery', page: 'gallery' },
+  {
+    label: 'Attestation',
+    page: 'documents',
+    dropdown: attestationServices.map((service) => ({
+      label: service.navTitle,
+      to: `/services/documents/${service.slug}`,
+      icon: service.icon,
+      caption: service.shortDescription,
+    })),
+  },
+  { label: 'Packages', page: 'packages' },
+  { label: 'About Us', page: 'about-us' },
   { label: 'Contact Us', page: 'contact-us' },
-  { label: 'Branches', page: 'branches' },
 ];
+
+const NAVIGABLE = ['/', '/about-us', '/services', '/visa', '/tours', '/destinations', '/packages', '/contact-us', '/gallery', '/services/documents', '/umrah'];
 
 function Layout({ children }: { children: React.ReactNode }) {
   const { currentPage, navigate, openEnquiry } = useApp();
+  const routerNavigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -44,6 +82,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const handleNav = (page: PageId) => {
     navigate(page);
     setMenuOpen(false);
+    setOpenMenu(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -60,11 +99,11 @@ function Layout({ children }: { children: React.ReactNode }) {
         <div className="container-x relative flex max-w-7xl items-center justify-center gap-5 py-3.5">
           <button onClick={() => handleNav('home')} className="flex items-center gap-3">
             <img
-              src="https://ik.imagekit.io/oy2vruqkz/Gemini_Generated_Image_koh4ckoh4ckoh4ck-modified.png"
+              src="https://ik.imagekit.io/oy2vruqkz/cropped_circle.png"
               alt="MM Travels & Tourism Services"
               className="h-14 w-14 rounded-2xl object-cover shadow-glow-sm sm:h-16 sm:w-16"
             />
-            <span className="bg-[linear-gradient(90deg,#0F172A_0%,#1E63FF_55%,#0F172A_100%)] bg-[length:200%_auto] bg-clip-text font-display text-xl font-extrabold tracking-tight text-transparent animate-gradient-pan sm:text-2xl">
+            <span className="bg-[linear-gradient(90deg,#0F172A_0%,#25D366_55%,#0F172A_100%)] bg-[length:200%_auto] bg-clip-text font-display text-xl font-extrabold tracking-tight text-transparent animate-gradient-pan sm:text-2xl">
               MM Travels &amp; Tourism Services
             </span>
           </button>
@@ -73,20 +112,82 @@ function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* Navigation */}
-        <nav className={`${menuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden border-t border-ink-100 bg-white transition-all duration-300 lg:max-h-none lg:opacity-100`}>
+        <nav className={`${menuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'} overflow-hidden border-t border-ink-100 bg-white transition-all duration-300 lg:max-h-none lg:overflow-visible lg:opacity-100`}>
           <div className="container-x flex max-w-7xl flex-col py-3 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col lg:flex-row lg:items-center">
               {navItems.map((item) => (
-                <button
-                  key={item.page}
-                  onClick={() => handleNav(item.page)}
-                  className={`relative border-b border-ink-100 px-0 py-3 text-left text-sm font-semibold transition hover:text-brand-600 lg:border-0 lg:px-4 lg:py-4 ${
-                    currentPage === item.page ? 'text-brand-600' : 'text-ink-600'
-                  }`}
-                >
-                  {item.label}
-                  {currentPage === item.page && <span className="absolute inset-x-4 -bottom-px hidden h-0.5 rounded-full bg-brand-gradient lg:block" />}
-                </button>
+                <div key={item.page} className="relative">
+                  {item.dropdown ? (
+                    <div className="flex items-center border-b border-ink-100 lg:border-0">
+                      <button
+                        type="button"
+                        onClick={() => handleNav(item.page)}
+                        className={`relative flex w-full items-center justify-between px-0 py-3 text-left text-sm font-semibold transition hover:text-brand-600 lg:w-auto lg:px-4 lg:py-4 ${
+                          currentPage === item.page ? 'text-brand-600' : 'text-ink-600'
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        {currentPage === item.page && <span className="absolute inset-x-4 -bottom-px hidden h-0.5 rounded-full bg-brand-gradient lg:block" />}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setOpenMenu((prev) => (prev === item.page ? null : item.page))}
+                        className="px-2 py-3 text-ink-500 transition hover:text-brand-600 lg:py-4"
+                        aria-label={`Toggle ${item.label} menu`}
+                      >
+                        <ChevronDown size={14} className={`transition ${openMenu === item.page ? 'rotate-180' : ''}`} />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleNav(item.page)}
+                      className={`relative flex w-full items-center justify-between border-b border-ink-100 px-0 py-3 text-left text-sm font-semibold transition hover:text-brand-600 lg:w-auto lg:border-0 lg:px-4 lg:py-4 ${
+                        currentPage === item.page ? 'text-brand-600' : 'text-ink-600'
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      {currentPage === item.page && <span className="absolute inset-x-4 -bottom-px hidden h-0.5 rounded-full bg-brand-gradient lg:block" />}
+                    </button>
+                  )}
+
+                  {item.dropdown && openMenu === item.page && (
+                    <div className="z-50 border-l-2 border-brand-100 pl-3 lg:absolute lg:left-0 lg:top-full lg:mt-1 lg:min-w-[320px] lg:rounded-2xl lg:border lg:border-ink-100 lg:bg-white lg:pl-0 lg:p-2 lg:shadow-card">
+                      {item.dropdown.map((d) => {
+                        const Icon = d.icon;
+                        return (
+                          <button
+                            key={d.label}
+                            type="button"
+                            onClick={() => {
+                              setOpenMenu(null);
+                              setMenuOpen(false);
+                              const dest = d.to ?? `/tours${d.params ?? ''}`;
+                              const clean = dest.split('?')[0];
+                              if (NAVIGABLE.some((p) => clean === p || clean.startsWith(p + '/'))) {
+                                routerNavigate(dest);
+                              } else {
+                                openEnquiry();
+                              }
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className="group flex w-full items-start gap-3 rounded-xl px-3 py-2.5 text-left transition hover:bg-brand-50"
+                          >
+                            {Icon && (
+                              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#25D366]/10 text-[#25D366]">
+                                <Icon size={18} />
+                              </span>
+                            )}
+                            <span className={Icon ? '' : 'block w-full text-sm font-semibold text-ink-600 transition group-hover:text-brand-600'}>
+                              <span className={Icon ? 'block text-sm font-bold text-ink-900 transition group-hover:text-brand-600' : 'block w-full text-sm font-semibold text-ink-600 transition group-hover:text-brand-600'}>{d.label}</span>
+                              {d.caption && <span className="mt-0.5 block text-xs leading-5 text-ink-500">{d.caption}</span>}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
             <button onClick={openEnquiry} className="my-2 flex items-center justify-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 text-sm font-bold text-brand-600 transition hover:bg-brand-50 lg:my-0"><MessageCircle size={16} /> Plan your trip</button>
@@ -102,13 +203,14 @@ function Layout({ children }: { children: React.ReactNode }) {
         <div className="pointer-events-none absolute inset-0 bg-mesh-pop opacity-40" />
         <div className="container-x relative grid max-w-7xl gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.3fr_.8fr_1fr_1.2fr]">
           <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-gradient"><PlaneTakeoff size={22} className="text-white" /></div>
-              <div>
-                <p className="font-display text-base font-extrabold">MM Travels &amp; Tourism</p>
-                <p className="text-[9px] uppercase tracking-[0.15em] text-white/50">Your trusted travel partner</p>
-              </div>
-            </div>
+            <button onClick={() => handleNav('home')} className="flex items-center gap-3 text-left">
+              <img
+                src="https://ik.imagekit.io/oy2vruqkz/cropped_circle.png"
+                alt="MM Travels & Tourism Services"
+                className="h-12 w-12 rounded-2xl object-cover shadow-glow-sm"
+              />
+              <span className="font-display text-base font-extrabold tracking-tight text-white">MM Travels &amp; Tourism Services</span>
+            </button>
             <p className="mt-5 max-w-xs text-sm leading-6 text-white/65">Making global travel feel closer, easier, and more human from our offices in Doha and Dhaka.</p>
             <div className="mt-5 flex gap-2">
               <a href="#" className="rounded-xl bg-white/10 p-2.5 text-white/70 transition hover:bg-brand-200 hover:text-white"><Instagram size={16} /></a>
@@ -138,7 +240,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               <p className="flex items-center gap-3"><Phone size={16} className="text-brand-400" /> +974 6648 6076</p>
               <p className="flex items-center gap-3"><Mail size={16} className="text-brand-400" /> info@mmtravels.qa</p>
             </div>
-            <button onClick={() => handleNav('branches')} className="mt-4 flex w-full items-center gap-2 rounded-2xl border border-white/15 bg-white/5 p-3 text-xs text-white/60 transition hover:bg-white/10 hover:text-white">
+            <button onClick={() => handleNav('contact-us')} className="mt-4 flex w-full items-center gap-2 rounded-2xl border border-white/15 bg-white/5 p-3 text-xs text-white/60 transition hover:bg-white/10 hover:text-white">
               <Navigation size={17} className="text-brand-400" /> View office locations <ChevronRight size={14} className="ml-auto" />
             </button>
             <button onClick={() => handleNav('admin')} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-500 px-4 py-3 text-xs font-bold text-white transition hover:bg-brand-600">

@@ -13,10 +13,12 @@ export type HeroSlide = {
   subtitle: string;
   description: string;
   background_image_url: string;
+  mobile_background_image_url: string | null;
   primary_btn_text: string | null;
   primary_btn_url: string | null;
   secondary_btn_text: string | null;
   secondary_btn_url: string | null;
+  link: string | null;
   slide_order: number;
   is_active: boolean;
   created_at: string;
@@ -67,6 +69,7 @@ export type Tour = {
   excludes: string[];
   image_url: string;
   start_location: string;
+  region: string | null;
 };
 
 export type VisaRequirement = {
@@ -90,6 +93,8 @@ export type SiteSettings = {
   hero_title: string;
   hero_subtitle: string;
   license_number: string;
+  search_enabled: boolean;
+  search_slide: number;
 };
 
 export type VisaApplication = {
@@ -126,6 +131,19 @@ export type Announcement = {
   custom_url: string | null;
   is_active: boolean;
   display_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AttestationOrder = {
+  id: string;
+  full_name: string;
+  phone_number: string;
+  service: string;
+  service_slug: string;
+  target_country: string;
+  message: string;
+  status: string;
   created_at: string;
   updated_at: string;
 };

@@ -89,7 +89,7 @@ function Hero() {
 
     supabase
       .from('site_settings')
-      .select('hero_bg_image, hero_title, hero_subtitle, license_number')
+      .select('hero_bg_image, hero_title, hero_subtitle, license_number, search_enabled, search_slide')
       .maybeSingle()
       .then(({ data }) => {
         if (data) setSettings(data as SiteSettings);
@@ -129,6 +129,9 @@ function Hero() {
   const headline = settings?.hero_title || slide.headline;
   const subtitle = settings?.hero_subtitle || slide.subtitle;
 
+  const searchEnabled = settings?.search_enabled ?? true;
+  const searchSlide = Math.max(1, settings?.search_slide ?? 1);
+
   const renderHeadline = () => {
     const h = headline;
     const highlight = slide.headline_highlight;
@@ -167,33 +170,59 @@ function Hero() {
   };
 
   return (
-    <section
-      id="home"
-      className="relative isolate w-full overflow-hidden sm:min-h-[600px] lg:min-h-[720px]"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Slide backgrounds (crossfade) */}
+    <section id="home" className="w-full pt-4 sm:pt-6">
+      <div
+        className="relative isolate mx-auto w-full max-w-[1440px] overflow-hidden rounded-3xl px-5 sm:px-6 lg:px-8 sm:min-h-[600px] lg:min-h-[720px]"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+      {/* Slide backgrounds (crossfade) — desktop + mobile layers */}
       {total > 0 ? (
-        slides.map((s, i) => (
-          <div
-            key={s.id}
-            aria-hidden
-            className={`absolute inset-0 -z-20 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
-              i === current ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{ backgroundImage: `url(${s.background_image_url || fallbackBg})` }}
-          />
-        ))
+        <>
+          {/* Desktop / large screens */}
+          {slides.map((s, i) => (
+            <div
+              key={`d-${s.id}`}
+              aria-hidden
+              className={`absolute inset-0 -z-20 hidden bg-cover bg-center transition-opacity duration-1000 ease-in-out sm:block ${
+                i === current ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{ backgroundImage: `url(${s.background_image_url || fallbackBg})` }}
+            >
+              {s.headline && <div className="absolute inset-0 bg-slate-900/30" />}
+            </div>
+          ))}
+          {/* Mobile / small screens (falls back to desktop image when no mobile url) */}
+          {slides.map((s, i) => (
+            <div
+              key={`m-${s.id}`}
+              aria-hidden
+              className={`absolute inset-0 -z-20 block transition-opacity duration-1000 ease-in-out sm:hidden ${s.mobile_background_image_url ? 'bg-cover' : 'bg-contain bg-navy-900'} bg-center ${
+                i === current ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{ backgroundImage: `url(${s.mobile_background_image_url || s.background_image_url || fallbackBg})` }}
+            >
+              {s.headline && <div className="absolute inset-0 bg-slate-900/30" />}
+            </div>
+          ))}
+        </>
       ) : (
-        <div
-          className="absolute inset-0 -z-20 bg-cover bg-center"
-          style={{ backgroundImage: `url(${bgUrl})` }}
-        />
+        <>
+          <div
+            className="absolute inset-0 -z-20 hidden bg-cover bg-center sm:block"
+            style={{ backgroundImage: `url(${bgUrl})` }}
+          >
+            {defaultSlide.headline && <div className="absolute inset-0 bg-slate-900/30" />}
+          </div>
+            <div
+              className="absolute inset-0 -z-20 block bg-contain bg-center bg-navy-900 sm:hidden"
+              style={{ backgroundImage: `url(${bgUrl})` }}
+            >
+            {defaultSlide.headline && <div className="absolute inset-0 bg-slate-900/30" />}
+          </div>
+        </>
       )}
 
-      {/* Uniform dark overlay for sharp text on every slide */}
-      <div className="absolute inset-0 -z-10 bg-slate-900/50" />
 
       {/* Decorative flight & cloud accents */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
@@ -204,6 +233,23 @@ function Hero() {
         <FlightArc className="absolute right-[14%] top-20 h-24 w-48 -scale-x-100 text-brand-300/30 [animation-delay:1.2s]" />
       </div>
 
+      {/* Clickable slide link layer (only when the current slide has a link) */}
+      {slide.link && (
+        <button
+          type="button"
+          onClick={() => {
+            const l = slide.link as string;
+            if (l.startsWith('http://') || l.startsWith('https://')) {
+              window.open(l, '_blank', 'noopener,noreferrer');
+            } else {
+              navigate(l);
+            }
+          }}
+          aria-label={`Open ${slide.link}`}
+          className="absolute inset-0 z-0 cursor-pointer"
+        />
+      )}
+
       {/* Floating glassmorphism navigation arrows */}
       {total > 1 && (
         <>
@@ -211,7 +257,7 @@ function Hero() {
             type="button"
             onClick={prev}
             aria-label="Previous slide"
-            className="absolute left-3 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white shadow-glass backdrop-blur-md transition hover:bg-white/25 sm:left-6 sm:flex"
+            className="absolute bottom-5 left-5 z-30 hidden h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white shadow-glass backdrop-blur-md transition hover:bg-white/25 sm:flex"
           >
             <ChevronLeft size={22} />
           </button>
@@ -219,7 +265,7 @@ function Hero() {
             type="button"
             onClick={next}
             aria-label="Next slide"
-            className="absolute right-3 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white shadow-glass backdrop-blur-md transition hover:bg-white/25 sm:right-6 sm:flex"
+            className="absolute bottom-5 right-5 z-30 hidden h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white shadow-glass backdrop-blur-md transition hover:bg-white/25 sm:flex"
           >
             <ChevronRight size={22} />
           </button>
@@ -243,7 +289,7 @@ function Hero() {
         </div>
       )}
 
-      <div className="container-x relative z-10 mx-auto flex max-w-7xl flex-col px-4 py-10 sm:min-h-[600px] sm:px-6 sm:py-12 lg:min-h-[720px] lg:py-16">
+      <div className="relative z-10 flex flex-col py-10 pointer-events-none sm:min-h-[600px] sm:py-12 lg:min-h-[720px] lg:py-16">
         {/* Slide text content (vertically centered in the area above the search bar) */}
         <div className="flex flex-1 items-center">
           <div key={slide.id} className="max-w-3xl animate-fade-up text-white">
@@ -257,7 +303,7 @@ function Hero() {
             <p className="mt-3 max-w-xl text-sm leading-7 text-white/65">{slide.description}</p>
 
             {(slide.primary_btn_text || slide.secondary_btn_text) && (
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="pointer-events-auto mt-6 flex flex-wrap gap-3">
                 {renderCta(slide.primary_btn_text, slide.primary_btn_url, true)}
                 {renderCta(slide.secondary_btn_text, slide.secondary_btn_url, false)}
               </div>
@@ -265,10 +311,9 @@ function Hero() {
           </div>
         </div>
 
-        {/* Bottom overlay: search widget (first slide only) */}
-        <div className="relative z-20 mt-4">
-          {/* Search & booking card — shown only on the first slide */}
-          {current === 0 && (
+        {/* Bottom overlay: search widget (controlled from admin — appears on the configured slide) */}
+        <div className="pointer-events-auto relative z-20 mt-4">
+          {searchEnabled && current === searchSlide - 1 && (
           <div className="w-full animate-fade-up">
             <div className="overflow-hidden rounded-2xl bg-white text-slate-900 shadow-2xl shadow-slate-900/10 border border-slate-100/80">
               {/* Tabs */}
@@ -396,6 +441,7 @@ function Hero() {
           </div>
           )}
         </div>
+      </div>
       </div>
     </section>
   );

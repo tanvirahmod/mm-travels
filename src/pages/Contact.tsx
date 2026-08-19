@@ -11,6 +11,16 @@ import {
 import { useApp } from '@/components/AppContext';
 import { PageHeroDecor, TravelEyebrow, PlaneMark } from '@/components/TravelDecor';
 
+const WHATSAPP_URL = 'https://wa.me/97466486076';
+
+const director = {
+  name: 'Md. Mahmudul Hasan',
+  designation: 'Managing Director',
+  photo: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=700',
+  message:
+    'With over a decade of experience in travel, visa, and attestation services, our mission is simple: make global mobility effortless for every client. From our offices in Dhaka and Doha, we personally oversee each application so your documents, visas, and journeys are handled with care and complete transparency. Feel free to reach out to me directly on WhatsApp — I am always happy to help.',
+};
+
 const offices = [
   {
     name: 'Dhaka Head Office',
@@ -106,9 +116,14 @@ function Contact() {
                 </div>
 
                 <div className="mt-5 flex gap-2.5">
-                  <button onClick={openEnquiry} className="btn-primary flex-1">
-                    <MessageCircle size={15} /> Enquire Now
-                  </button>
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary flex-1"
+                  >
+                    <MessageCircle size={15} /> WhatsApp
+                  </a>
                   <a
                     href={`https://maps.google.com/?q=${encodeURIComponent(office.mapQuery)}`}
                     target="_blank"
@@ -141,6 +156,37 @@ function Contact() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Director section */}
+      <section className="container-x max-w-7xl py-12 sm:py-16">
+        <div className="mx-auto max-w-4xl overflow-hidden rounded-3xl border border-ink-100 bg-white shadow-soft">
+          <div className="grid md:grid-cols-[260px_1fr]">
+            <div className="relative bg-brand-50">
+              <img
+                src={director.photo}
+                alt={`${director.name}, ${director.designation}`}
+                className="h-72 w-full object-cover md:h-full"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/30 to-transparent" />
+            </div>
+            <div className="p-7 sm:p-9">
+              <TravelEyebrow>Leadership</TravelEyebrow>
+              <h2 className="mt-3 font-display text-2xl font-extrabold text-ink-900">{director.name}</h2>
+              <p className="text-sm font-bold text-brand-600">{director.designation}</p>
+              <p className="mt-4 text-sm leading-7 text-ink-600">{director.message}</p>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary mt-6"
+              >
+                <MessageCircle size={16} /> Chat with the Director on WhatsApp
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
